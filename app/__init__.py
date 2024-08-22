@@ -4,11 +4,25 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
-from .models import db, User
+# from .models import db, User, Match, Game, Clip, Message
+from .models.db import db
+from .models.user import User
+from .models.match import Match
+from .models.match_request import MatchRequest
+from .models.game import Game
+from .models.user_game import UserGame
+from .models.clip import Clip
+from .models.message import Message
+
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
+from .api.match_routes import match_routes
+from .api.game_routes import game_routes
+from .api.clip_routes import clip_routes
+from .api.message_routes import message_routes
 from .seeds import seed_commands
 from .config import Config
+from flask_cors import CORS
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
 
@@ -28,11 +42,15 @@ app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
+app.register_blueprint(match_routes, url_prefix='/api/matches')
+app.register_blueprint(game_routes, url_prefix='/api/games')
+app.register_blueprint(clip_routes, url_prefix='/api/clips')
+app.register_blueprint(message_routes, url_prefix='/api/messages')
 db.init_app(app)
 Migrate(app, db)
 
 # Application Security
-CORS(app)
+CORS(app, supports_credentials=True)
 
 
 # Since we are deploying with Docker and Flask,

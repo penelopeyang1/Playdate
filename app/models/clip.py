@@ -10,7 +10,7 @@ class Clip(db.Model):
     title = db.Column(db.String(255))
     description = db.Column(db.String(255))
     video_url = db.Column(db.String(255))
-    creator_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    creator_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
 
     #RELATIONSHIPS

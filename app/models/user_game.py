@@ -3,6 +3,9 @@ from .db import db, environment, SCHEMA
 class UserGame(db.Model):
     __tablename__ = 'user_games'
 
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'), nullable=False)

@@ -3,6 +3,9 @@ from .db import db, environment, SCHEMA
 class Match(db.Model):
     __tablename__ = 'matches'
 
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = db.Column(db.Integer, primary_key=True)
     user_one_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     user_two_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)

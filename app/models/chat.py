@@ -7,7 +7,7 @@ class Chat(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    match_id = db.Column(db.Integer, db.ForeignKey('matches.id'), nullable=False)
+    match_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('matches.id')), nullable=False)
 
     #RELATIONSHIPS
     match = db.relationship('Match', back_populates='chats')

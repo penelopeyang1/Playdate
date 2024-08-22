@@ -11,7 +11,7 @@ class Clip(db.Model):
     description = db.Column(db.String(255))
     video_url = db.Column(db.String(255))
     creator_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
-    game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
+    game_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('games.id')))
 
     #RELATIONSHIPS
     creator = db.relationship('User', back_populates='clips')

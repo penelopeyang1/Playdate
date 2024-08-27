@@ -4,7 +4,7 @@ from app.forms import GameForm
 
 game_routes = Blueprint('games', __name__)
 
-#CREATE
+#CREATE - for adding games to user profile
 @game_routes.route('/', methods=['POST'])
 # def add_game():
 #     form = GameForm()
@@ -37,7 +37,8 @@ def add_game():
         new_game = UserGame(
             user_id=form.user_id.data,
             game_id=form.game_id.data,
-            rank=form.rank.data
+            rank=form.rank.data,
+            description=form.description.data
         )
         db.session.add(new_game)
         db.session.commit()
@@ -56,7 +57,7 @@ def update_game(game_id):
     game = UserGame.query.get(game_id)
     if game:
         game.rank = request.json.get('rank', game.rank)
-        # Add more fields to update as needed
+        game.description = request.json.get('description', game.description)
         db.session.commit()
         return jsonify(game.to_dict()), 200
     return jsonify({"error": "Game not found"}), 404

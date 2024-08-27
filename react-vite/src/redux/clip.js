@@ -79,10 +79,11 @@ export default function clipsReducer(state = initialState, action) {
         case CREATE_CLIP:
         case UPDATE_CLIP:
             return { ...state, [action.payload.id]: action.payload };
-        case DELETE_CLIP:
+        case DELETE_CLIP: {
             const newState = { ...state };
             delete newState[action.payload];
             return newState;
+        }
         default:
             return state;
     }

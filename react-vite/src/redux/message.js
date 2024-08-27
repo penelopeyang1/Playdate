@@ -102,20 +102,22 @@ const initialState = {};
 
 export default function messagesReducer(state = initialState, action) {
     switch (action.type) {
-        case LOAD_MESSAGES:
+        case LOAD_MESSAGES: {
             const newState = {};
             action.payload.forEach((message) => {
                 newState[message.id] = message;
             });
             return newState;
+        }
         case CREATE_MESSAGE:
             return { ...state, [action.payload.id]: action.payload };
         case UPDATE_MESSAGE:
             return { ...state, [action.payload.id]: action.payload };
-        case DELETE_MESSAGE:
+        case DELETE_MESSAGE: {
             const newStateAfterDelete = { ...state };
             delete newStateAfterDelete[action.payload];
             return newStateAfterDelete;
+        }
         default:
             return state;
     }

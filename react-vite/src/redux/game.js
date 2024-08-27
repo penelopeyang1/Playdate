@@ -54,18 +54,20 @@ const initialState = {};
 
 export default function gamesReducer(state = initialState, action) {
     switch (action.type) {
-        case LOAD_GAMES:
+        case LOAD_GAMES: {
             const newState = {};
             action.payload.forEach((game) => {
                 newState[game.id] = game;
             });
             return newState;
+        }
         case UPDATE_GAME:
             return { ...state, [action.payload.id]: action.payload };
-        case DELETE_GAME:
+        case DELETE_GAME: {
             const newStateAfterDelete = { ...state };
             delete newStateAfterDelete[action.payload];
             return newStateAfterDelete;
+        }
         default:
             return state;
     }

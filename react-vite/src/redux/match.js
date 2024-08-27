@@ -71,20 +71,22 @@ const initialState = {};
 
 export default function matchesReducer(state = initialState, action) {
     switch (action.type) {
-        case LOAD_MATCHES:
+        case LOAD_MATCHES: {
             const newState = {};
             action.payload.forEach((match) => {
                 newState[match.id] = match;
             });
             return newState;
+        }
         case CREATE_MATCH:
             return { ...state, [action.payload.id]: action.payload };
         case UPDATE_MATCH:
             return { ...state, [action.payload.id]: action.payload };
-        case DELETE_MATCH:
+        case DELETE_MATCH: {
             const newStateAfterDelete = { ...state };
             delete newStateAfterDelete[action.payload];
             return newStateAfterDelete;
+        }
         default:
             return state;
     }

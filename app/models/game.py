@@ -10,7 +10,7 @@ class Game(db.Model):
     title = db.Column(db.String(100), nullable=False)
     genre = db.Column(db.String(100))
     image_url = db.Column(db.String(255))
-    ranks = db.Column(db.String(255))
+
 
     #RELATIONSHIPS ~
     user_games = db.relationship('UserGame', back_populates='game')
@@ -21,5 +21,4 @@ class Game(db.Model):
             'title': self.title,
             'genre': self.genre,
             'image_url': self.image_url,
-            'ranks': self.ranks
         }

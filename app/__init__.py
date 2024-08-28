@@ -4,15 +4,14 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
-# from .models import db, User, Match, Game, Clip, Message
-from .models.db import db
-from .models.user import User
-from .models.match import Match
-from .models.match_request import MatchRequest
-from .models.game import Game
-from .models.user_game import UserGame
-from .models.clip import Clip
-from .models.message import Message
+
+from .models import db, User
+# from .models.match import Match
+# from .models.match_request import MatchRequest
+# from .models.game import Game
+# from .models.user_game import UserGame
+# from .models.clip import Clip
+# from .models.message import Message
 
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
@@ -22,7 +21,6 @@ from .api.clip_routes import clip_routes
 from .api.message_routes import message_routes
 from .seeds import seed_commands
 from .config import Config
-from flask_cors import CORS
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
 
@@ -46,11 +44,12 @@ app.register_blueprint(match_routes, url_prefix='/api/matches')
 app.register_blueprint(game_routes, url_prefix='/api/games')
 app.register_blueprint(clip_routes, url_prefix='/api/clips')
 app.register_blueprint(message_routes, url_prefix='/api/messages')
+
 db.init_app(app)
 Migrate(app, db)
 
 # Application Security
-CORS(app, supports_credentials=True)
+CORS(app)
 
 
 # Since we are deploying with Docker and Flask,
@@ -91,19 +90,37 @@ def api_help():
     return route_list
 
 
+# @app.route('/', defaults={'path': ''})
+# @app.route('/<path:path>')
+# def react_root(path):
+#     """
+#     This route will direct to the public directory in our
+#     react builds in the production environment for favicon
+#     or index.html requests
+#     """
+#     if path == 'favicon.ico':
+#         return app.send_from_directory('public', 'favicon.ico')
+#     return app.send_static_file('index.html')
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def react_root(path):
     """
     This route will direct to the public directory in our
-    react builds in the production environment for favicon
-    or index.html requests
+    React builds in the production environment for favicon
+    or index.html requests.
     """
-    if path == 'favicon.ico':
+    if path.startswith('api/'):
+        # Prevent serving React app for API routes
+        return jsonify({"error": "Not found"}), 404
+    elif path == 'favicon.ico':
         return app.send_from_directory('public', 'favicon.ico')
     return app.send_static_file('index.html')
 
 
+# @app.errorhandler(404)
+# def not_found(e):
+#     return app.send_static_file('index.html')
+
 @app.errorhandler(404)
-def not_found(e):
-    return app.send_static_file('index.html')
+def not_found(error):
+    return jsonify({"error": "Not found"}), 404

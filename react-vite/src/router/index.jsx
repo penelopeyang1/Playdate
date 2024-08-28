@@ -2,16 +2,16 @@ import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import ProfilePage from '../components/ProfilePage';
-import GameList from '../components/ProfilePage/GameList';
-import ClipList from '../components/ProfilePage/ClipList';
+import GameList from '../components/GameList';
+import ClipList from '../components/ClipList';
 import MiniProfile from '../components/MiniProfile';
-// import Gamelist from '../componets/MiniProfile/GameList'
 import MatchPage from '../components/MatchPage';
 import MatchRequests from '../components/MatchRequests';
 import ChatList from '../components/ChatList'; //list of all chats
 import ChatPage from '../components/ChatPage'; //show messages in a specific chat
 import NotFoundPage from '../components/NotFoundPage';
 import Layout from './Layout';
+import LandingPage from '../components/LandingPage/LandingPage';
 
 export const router = createBrowserRouter([
   {
@@ -19,7 +19,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <h1>Welcome!</h1>,
+        element: <LandingPage />,
       },
       {
         path: "login",

@@ -1,0 +1,27 @@
+.game-list-container {
+    /* padding: 20px; */
+}
+
+.game-image {
+    width: 200px;
+    height: 300px;
+    border-radius: 15px;
+}
+
+.game-item {
+    flex: 0 0 auto;
+}
+
+.game-list {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 20px;
+    pointer-events: none;
+    transform: translateZ(0);
+}
+
+.game-list::-webkit-scrollbar {
+    display: none;
+}

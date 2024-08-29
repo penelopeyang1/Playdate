@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useModal } from "../../context/Modal";
+// import { useModal } from "../../context/Modal";
 import { thunkSignup } from "../../redux/session";
 import { useNavigate } from 'react-router-dom';
 import "./SignupForm.css";
@@ -8,7 +8,7 @@ import "./SignupForm.css";
 function SignupFormModal() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { closeModal } = useModal();
+  // const { closeModal } = useModal();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,8 +20,8 @@ function SignupFormModal() {
   const [region, setRegion] = useState("");
   const [hasMic, setHasMic] = useState("");
   const [platforms, setPlatforms] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [imageFile, setImageFile] = useState(null);
+  // const [imageUrl, setImageUrl] = useState("");
+  // const [imageFile, setImageFile] = useState(null);
   const [errors, setErrors] = useState({});
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,15 +60,15 @@ function SignupFormModal() {
       return setErrors({ first_name: "First Name is required" });
     }
 
-    let uploadedImageUrl = imageUrl;
-    if (imageFile) {
-      try {
-        uploadedImageUrl = await uploadImage(imageFile);
-        setImageUrl(uploadedImageUrl);
-      } catch (err) {
-        return setErrors({ imageUrl: err.message });
-      }
-    }
+    // let uploadedImageUrl = imageUrl;
+    // if (imageFile) {
+    //   try {
+    //     uploadedImageUrl = await uploadImage(imageFile);
+    //     setImageUrl(uploadedImageUrl);
+    //   } catch (err) {
+    //     return setErrors({ imageUrl: err.message });
+    //   }
+    // }
 
     const serverResponse = await dispatch(
       thunkSignup({
@@ -82,7 +82,7 @@ function SignupFormModal() {
         region,
         hasMic,
         platforms,
-        imageUrl: uploadedImageUrl,
+        // imageUrl: uploadedImageUrl,
       })
     );
 

@@ -81,7 +81,3 @@ def delete_game(game_id):
         db.session.commit()
         return jsonify({"message": "Game deleted"}), 200
     return jsonify({"error": "Game not found"}), 404
-
-@app.errorhandler(404)
-def not_found(error):
-    return jsonify({"error": "Not found"}), 404

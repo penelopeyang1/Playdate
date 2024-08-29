@@ -17,20 +17,13 @@ function LandingPage() {
 
     return (
         <div className="landing-page-container">
-            <div className="catchphrases">
+            <div className="better-together">
                 <h1>Gaming is better together.</h1>
+            </div>
+            <div className="meet-duo">
                 <h1>Meet your duo.</h1>
             </div>
-            <div className="game-list">
-                <GameList />
-                {/* {displayGames.map((game) => (
-                    <div key={game.id} className="game-item">
-                        <img src={game.image_url} alt={game.title} className="game-image" />
-                        <h2 className="game-title">{game.title}</h2>
-                        <p className="game-genre">{game.genre}</p>
-                    </div>
-                ))} */}
-            </div>
+            <GameList />
         </div>
     );
 }

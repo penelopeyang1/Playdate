@@ -36,6 +36,29 @@ const deleteGame = (gameId) => ({
 //     }
 // };
 
+// export const thunkLoadGames = () => async (dispatch) => {
+//     try {
+//         const response = await fetch('/api/games/all');
+
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! Status: ${response.status}`);
+//         }
+
+//         const data = await response.json();
+
+//         dispatch({
+//             type: 'LOAD_GAMES_SUCCESS',
+//             payload: data,
+//         });
+//     } catch (error) {
+//         console.error('Error fetching games:', error);
+//         dispatch({
+//             type: 'LOAD_GAMES_FAILURE',
+//             error: error.message,
+//         });
+//     }
+// };
+
 export const thunkLoadGames = () => async (dispatch) => {
     try {
         const response = await fetch('/api/games/all');
@@ -45,6 +68,7 @@ export const thunkLoadGames = () => async (dispatch) => {
         }
 
         const data = await response.json();
+        console.log('Fetched games:', data); // Log the data to verify
 
         dispatch({
             type: 'LOAD_GAMES_SUCCESS',
@@ -93,15 +117,13 @@ const initialState = {};
 
 export default function gamesReducer(state = initialState, action) {
     switch (action.type) {
-        case LOAD_GAMES:
-        // {
-        //     // const newState = {};
-        //     // action.payload.forEach((game) => {
-        //     //     newState[game.id] = game;
-        //     // });
-        //     // return newState;
-        // }
-            return action.payload;
+        case 'LOAD_GAMES_SUCCESS': {
+            const newState = {};
+            action.payload.forEach(game => {
+                newState[game.id] = game;
+            });
+            return newState;
+        }
         case UPDATE_GAME:
             return { ...state, [action.payload.id]: action.payload };
         case DELETE_GAME: {

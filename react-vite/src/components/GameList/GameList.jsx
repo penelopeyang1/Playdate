@@ -14,34 +14,37 @@ const GameList = () => {
         dispatch(thunkLoadGames());
     }, [dispatch]);
 
-    //gamelist horizontal auto-scroll
+    //game list horizontal auto-scroll
     useEffect(() => {
         const scrollContainer = document.querySelector('.game-list');
+
+        //check if scrollContainer exists before applying scroll logic
+        if (!scrollContainer) {
+            return;
+        }
 
         let scrollAmount = 0;
         const scrollStep = 0.3; //scroll speed
         const scrollInterval = setInterval(() => {
             if (scrollAmount >= scrollContainer.scrollWidth - scrollContainer.clientWidth) {
-                scrollAmount = 0; //scroll position
+                scrollAmount = 0; //reset scroll position
             } else {
                 scrollAmount += scrollStep;
             }
             scrollContainer.scrollLeft = scrollAmount;
         }, 20); //adjust the interval time for smoother scrolling
 
-        return () => clearInterval(scrollInterval); //clean up interval on component unmount
-    }, []);
+        return () => clearInterval(scrollInterval);
+    }, [games]); //ensure this effect runs after games have been loaded
 
     return (
         <div className="game-list-container">
-            {/* <h1>Games</h1> */}
             {games.length === 0 ? (
                 <p>No games available</p>
             ) : (
                 <div className="game-list">
                     {games.map(game => (
                         <div key={game.id} className="game-item">
-                            {/* <h2 className="game-title">{game.title}</h2> */}
                             <img src={game.image_url} alt={game.title} className="game-image" />
                         </div>
                     ))}

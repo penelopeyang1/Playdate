@@ -9,12 +9,10 @@ game_routes = Blueprint('games', __name__)
 def add_game():
     form = GameForm()
     if form.validate_on_submit():
-        # Check if the game_id exists in the Game model
         game = Game.query.get(form.game_id.data)
         if not game:
             return jsonify({"error": "Game does not exist"}), 400
 
-        # Check if the game is already added to the user's profile
         existing_game = UserGame.query.filter_by(
             user_id=form.user_id.data,
             game_id=form.game_id.data

@@ -6,8 +6,11 @@ import configureStore from "./redux/store";
 import { router } from "./router";
 import * as sessionActions from "./redux/session";
 import "./index.css";
+// import Amplify from 'aws-amplify';
+// import awsconfig from './aws-exports';
 
 const store = configureStore();
+// Amplify.configure(awsconfig);
 
 if (import.meta.env.MODE !== "production") {
   window.store = store;

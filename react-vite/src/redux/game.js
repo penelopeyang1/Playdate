@@ -1,11 +1,17 @@
-const LOAD_GAMES = "games/loadGames";
+const LOAD_ALL_GAMES = "games/loadAllGames";
+const LOAD_USER_GAMES = "games/loadUserGames";
 const ADD_GAME = "games/addGame";
 const UPDATE_GAME = "games/updateGame";
 const DELETE_GAME = "games/deleteGame";
 
 //action creators
-const loadGames = (games) => ({
-    type: LOAD_GAMES,
+const loadAllGames = (games) => ({
+    type: LOAD_ALL_GAMES,
+    payload: games,
+});
+
+const loadUserGames = (games) => ({
+    type: LOAD_USER_GAMES,
     payload: games,
 });
 
@@ -24,48 +30,8 @@ const deleteGame = (gameId) => ({
     payload: gameId,
 });
 
-
-//thunk actions
-// export const thunkLoadGames = () => async (dispatch) => {
-//     console.log('Fetching games...');
-//     try {
-//         const response = await fetch('/api/games/all');
-//         console.log('Response status:', response.status);
-//         if (response.ok) {
-//             const games = await response.json();
-//             dispatch(loadGames(games));
-//         } else {
-//             console.error('Failed to fetch games:', response.statusText);
-//         }
-//     } catch (error) {
-//         console.error('Error fetching games:', error);
-//     }
-// };
-
-// export const thunkLoadGames = () => async (dispatch) => {
-//     try {
-//         const response = await fetch('/api/games/all');
-
-//         if (!response.ok) {
-//             throw new Error(`HTTP error! Status: ${response.status}`);
-//         }
-
-//         const data = await response.json();
-
-//         dispatch({
-//             type: 'LOAD_GAMES_SUCCESS',
-//             payload: data,
-//         });
-//     } catch (error) {
-//         console.error('Error fetching games:', error);
-//         dispatch({
-//             type: 'LOAD_GAMES_FAILURE',
-//             error: error.message,
-//         });
-//     }
-// };
-
-export const thunkLoadGames = () => async (dispatch) => {
+//thunk
+export const thunkLoadAllGames = () => async (dispatch) => {
     try {
         const response = await fetch('/api/games/all');
 
@@ -74,16 +40,13 @@ export const thunkLoadGames = () => async (dispatch) => {
         }
 
         const data = await response.json();
-        console.log('Fetched games:', data); // Log the data to verify
+        console.log('Fetched all games:', data);
 
-        dispatch({
-            type: 'LOAD_GAMES_SUCCESS',
-            payload: data,
-        });
+        dispatch(loadAllGames(data));
     } catch (error) {
-        console.error('Error fetching games:', error);
+        console.error('Error fetching all games:', error);
         dispatch({
-            type: 'LOAD_GAMES_FAILURE',
+            type: 'LOAD_ALL_GAMES_FAILURE',
             error: error.message,
         });
     }
@@ -91,7 +54,7 @@ export const thunkLoadGames = () => async (dispatch) => {
 
 export const thunkAddGame = (userId, gameId) => async (dispatch) => {
     try {
-        const response = await fetch('/api/games', {
+        const response = await fetch('/api/games/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -99,43 +62,68 @@ export const thunkAddGame = (userId, gameId) => async (dispatch) => {
             body: JSON.stringify({ user_id: userId, game_id: gameId }),
         });
 
-        if (response.ok) {
-            const newGame = await response.json();
-            dispatch(addGame(newGame));
-        } else {
-            console.error('Failed to add game:', response.statusText);
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`HTTP error! Status: ${response.status}, Details: ${JSON.stringify(errorData)}`);
         }
+
+        const newGame = await response.json();
+        dispatch(addGame(newGame));
+
+        dispatch(thunkLoadUserGames(userId));
     } catch (error) {
-        console.error('Error adding game:', error);
+        console.error('Failed to add game:', error);
     }
 };
 
 export const thunkLoadUserGames = (userId) => async (dispatch) => {
-    const response = await fetch(`/api/games/${userId}`);
-    if (response.ok) {
+    try {
+        const response = await fetch(`/api/games/user/${userId}`);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
         const games = await response.json();
-        dispatch(loadGames(games));
+        console.log('Loaded user games:', games);
+        dispatch(loadUserGames(games));
+    } catch (error) {
+        console.error('Error fetching user games:', error);
     }
 };
 
 export const thunkUpdateGame = (gameId, updateData) => async (dispatch) => {
-    const response = await fetch(`/api/games/${gameId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updateData),
-    });
-    if (response.ok) {
-        const game = await response.json();
-        dispatch(updateGame(game));
+    try {
+        const response = await fetch(`/api/games/${gameId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updateData),
+        });
+
+        if (response.ok) {
+            const game = await response.json();
+            dispatch(updateGame(game));
+        } else {
+            console.error(`Failed to update game. Status: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Failed to update game:', error);
     }
 };
 
 export const thunkDeleteGame = (gameId) => async (dispatch) => {
-    const response = await fetch(`/api/games/${gameId}`, {
-        method: "DELETE",
-    });
-    if (response.ok) {
-        dispatch(deleteGame(gameId));
+    try {
+        const response = await fetch(`/api/games/${gameId}`, {
+            method: "DELETE",
+        });
+
+        if (response.ok) {
+            dispatch(deleteGame(gameId));
+        } else {
+            console.error(`Failed to delete game. Status: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Failed to delete game:', error);
     }
 };
 
@@ -144,7 +132,14 @@ const initialState = {};
 
 export default function gamesReducer(state = initialState, action) {
     switch (action.type) {
-        case 'LOAD_GAMES_SUCCESS': {
+        case LOAD_ALL_GAMES: {
+            const newState = {};
+            action.payload.forEach(game => {
+                newState[game.id] = game;
+            });
+            return newState;
+        }
+        case LOAD_USER_GAMES: {
             const newState = {};
             action.payload.forEach(game => {
                 newState[game.id] = game;

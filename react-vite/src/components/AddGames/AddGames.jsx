@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { thunkLoadGames, thunkAddGame } from '../../redux/game';
+import { thunkLoadAllGames, thunkAddGame } from '../../redux/game';
 import './AddGames.css';
 
 const AddGames = () => {
@@ -10,16 +10,14 @@ const AddGames = () => {
     const gamesObject = useSelector(state => state.games);
     const userId = useSelector(state => state.session.user.id);
 
-    //convert object to array
     const games = Object.values(gamesObject);
 
-    //track selected games
     const [selectedGames, setSelectedGames] = useState([]);
     const [error, setError] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
-        dispatch(thunkLoadGames());
+        dispatch(thunkLoadAllGames());
     }, [dispatch]);
 
     const handleSelect = (gameId) => {
@@ -40,15 +38,13 @@ const AddGames = () => {
         setIsSubmitting(true);
 
         try {
-            //dispatch thunk actions to add games
             await Promise.all(selectedGames.map(gameId => dispatch(thunkAddGame(userId, gameId))));
-            //redirect to user profile after successful submission
             navigate(`/profile/${userId}`);
         } catch (error) {
             console.error('Error adding games:', error);
             setError("An error occurred while adding the games. Please try again.");
         } finally {
-            setIsSubmitting(false); //reset submitting status
+            setIsSubmitting(false);
         }
     };
 

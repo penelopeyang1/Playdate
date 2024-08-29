@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { thunkLoadGames } from '../../redux/game';
+import { thunkLoadAllGames } from '../../redux/game';
 import './GameList.css';
 
 const GameList = () => {
@@ -11,7 +11,7 @@ const GameList = () => {
     const games = Object.values(gamesObject);
 
     useEffect(() => {
-        dispatch(thunkLoadGames());
+        dispatch(thunkLoadAllGames());
     }, [dispatch]);
 
     //game list horizontal auto-scroll

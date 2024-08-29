@@ -3,7 +3,8 @@ import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import ProfilePage from '../components/ProfilePage';
 import GameList from '../components/GameList';
-import ClipList from '../components/ClipList';
+import AddGames from '../components/AddGames';
+// import ClipList from '../components/ClipList';
 import MiniProfile from '../components/MiniProfile';
 import MatchPage from '../components/MatchPage';
 import MatchRequests from '../components/MatchRequests';
@@ -20,6 +21,12 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <LandingPage />,
+        children: [
+          {
+            path: "all",
+            element: <GameList />,
+          },
+        ]
       },
       {
         path: "login",
@@ -30,32 +37,16 @@ export const router = createBrowserRouter([
         element: <SignupFormPage />,
       },
       {
-        path: "profile",
+        path: "add-games",
+        element: <AddGames />,
+      },
+      {
+        path: "profile/:userId",
         element: <ProfilePage />,
-        children: [
-          {
-            path: "games",
-            element: <GameList />,
-          },
-          {
-            path: "clips",
-            element: <ClipList />,
-          },
-        ],
       },
       {
         path: "mini-profile/:userId",
         element: <MiniProfile />,
-        children: [
-          {
-            path: "games",
-            element: <GameList />,
-          },
-          {
-            path: "clips",
-            element: <ClipList />,
-          },
-        ],
       },
       {
         path: "matches",

@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { thunkSignup } from "../../redux/session";
+import { useNavigate } from 'react-router-dom';
 import "./SignupForm.css";
 
 function SignupFormModal() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { closeModal } = useModal();
 
   const [email, setEmail] = useState("");
@@ -87,7 +89,7 @@ function SignupFormModal() {
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
-      closeModal();
+      navigate('/add-games');
     }
   };
 

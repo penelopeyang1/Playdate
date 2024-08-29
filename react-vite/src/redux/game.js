@@ -1,4 +1,5 @@
 const LOAD_GAMES = "games/loadGames";
+const ADD_GAME = "games/addGame";
 const UPDATE_GAME = "games/updateGame";
 const DELETE_GAME = "games/deleteGame";
 
@@ -6,6 +7,11 @@ const DELETE_GAME = "games/deleteGame";
 const loadGames = (games) => ({
     type: LOAD_GAMES,
     payload: games,
+});
+
+const addGame = (game) => ({
+    type: ADD_GAME,
+    payload: game,
 });
 
 const updateGame = (game) => ({
@@ -83,6 +89,27 @@ export const thunkLoadGames = () => async (dispatch) => {
     }
 };
 
+export const thunkAddGame = (userId, gameId) => async (dispatch) => {
+    try {
+        const response = await fetch('/api/games', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ user_id: userId, game_id: gameId }),
+        });
+
+        if (response.ok) {
+            const newGame = await response.json();
+            dispatch(addGame(newGame));
+        } else {
+            console.error('Failed to add game:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error adding game:', error);
+    }
+};
+
 export const thunkLoadUserGames = (userId) => async (dispatch) => {
     const response = await fetch(`/api/games/${userId}`);
     if (response.ok) {
@@ -123,6 +150,9 @@ export default function gamesReducer(state = initialState, action) {
                 newState[game.id] = game;
             });
             return newState;
+        }
+        case ADD_GAME: {
+            return { ...state, [action.payload.id]: action.payload };
         }
         case UPDATE_GAME:
             return { ...state, [action.payload.id]: action.payload };

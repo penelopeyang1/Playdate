@@ -50,16 +50,26 @@ def sign_up():
     """
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
+
     if form.validate_on_submit():
         user = User(
-            username=form.data['username'],
             email=form.data['email'],
-            password=form.data['password']
+            password=form.data['password'],
+            first_name=form.data.get('firstName'),
+            gender=form.data.get('gender'),
+            age=form.data.get('age'),
+            playstyle=form.data.get('playstyle'),
+            region=form.data.get('region'),
+            has_mic=form.data.get('hasMic'),
+            platforms=form.data.get('platforms'),
+            image_url=form.data.get('imageUrl')
         )
+        user.password = form.data['password']
         db.session.add(user)
         db.session.commit()
         login_user(user)
         return user.to_dict()
+    print(form.errors)
     return form.errors, 401
 
 

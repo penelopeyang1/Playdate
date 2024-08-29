@@ -1,5 +1,8 @@
 .game-list-container {
-    /* padding: 20px; */
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
 }
 
 .game-image {
@@ -10,12 +13,13 @@
 
 .game-item {
     flex: 0 0 auto;
+    display: inline-block;
 }
 
 .game-list {
     display: flex;
     flex-direction: row;
-    overflow-x: auto;
+    overflow-x: hidden;
     white-space: nowrap;
     gap: 20px;
     pointer-events: none;

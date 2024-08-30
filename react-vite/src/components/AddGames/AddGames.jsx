@@ -56,8 +56,8 @@ const AddGames = () => {
             ) : (
                 <div className="add-to-profile">
                     <div className="add-titles">
-                        <h1>Finish Setting Up Your Profile</h1>
-                        <h2>Showcase the games you play on your profile :)</h2>
+                        <h1>Showcase the games you play on your profile</h1>
+                        {/* <h2>Showcase the games you play on your profile :)</h2> */}
                     </div>
                     <div className="add-games">
                         {games.map(game => (

@@ -9,7 +9,7 @@ import MiniProfile from '../components/MiniProfile';
 import MatchPage from '../components/MatchPage';
 import MatchRequests from '../components/MatchRequests';
 import ChatList from '../components/ChatList'; //list of all chats
-import ChatPage from '../components/ChatPage'; //show messages in a specific chat
+// import ChatPage from '../components/ChatPage'; //show messages in a specific chat
 import NotFoundPage from '../components/NotFoundPage';
 import Layout from './Layout';
 import LandingPage from '../components/LandingPage/LandingPage';
@@ -49,21 +49,21 @@ export const router = createBrowserRouter([
         element: <MiniProfile />,
       },
       {
-        path: "matches",
+        path: "find-matches",
         element: <MatchPage />,
       },
       {
-        path: "match-requests",
+        path: "match-requests/:userId",
         element: <MatchRequests />,
       },
       {
-        path: "chats",
+        path: "chats/:userId",
         element: <ChatList />,
       },
-      {
-        path: "chats/:chatId",
-        element: <ChatPage />,
-      },
+      // {
+      //   path: "chats/:chatId",
+      //   element: <ChatPage />,
+      // },
       {
         path: "*",  //404 errors
         element: <NotFoundPage />,

@@ -59,29 +59,6 @@ def get_all_games():
         app.logger.error(f"Error fetching games: {str(e)}")
         return jsonify({"error": "Failed to fetch games"}), 500
 
-# GET - Fetch games for a specific user
-# @game_routes.route('/user/<int:user_id>', methods=['GET'])
-# def get_user_games(user_id):
-#     try:
-#         games = UserGame.query.filter_by(user_id=user_id).all()
-#         if not games:
-#             return jsonify([]), 200  # Return an empty list if no games found
-#         return jsonify([game.to_dict() for game in games]), 200
-#     except Exception as e:
-#         app.logger.error(f"Error fetching user games for user {user_id}: {str(e)}")
-#         return jsonify({"error": "Failed to fetch user games"}), 500
-
-# @game_routes.route('/user/<int:user_id>', methods=['GET'])
-# def get_user_games(user_id):
-#     user_games = db.session.query(UserGame).filter_by(user_id=user_id).all()
-#     games = [db.session.query(Game).filter_by(id=ug.game_id).first() for ug in user_games]
-#     return jsonify([{
-#         'id': game.id,
-#         'title': game.title,
-#         'image_url': game.image_url,
-#         # Add any other game details you need
-#     } for game in games])
-
 @game_routes.route('/user/<int:user_id>', methods=['GET'])
 def get_user_games(user_id):
     try:

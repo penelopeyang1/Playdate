@@ -1,8 +1,10 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from app.models import User, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
+
+# from flask_jwt_extended import create_access_token
 
 auth_routes = Blueprint('auth', __name__)
 
@@ -32,6 +34,15 @@ def login():
         login_user(user)
         return user.to_dict()
     return form.errors, 401
+
+    #for token based auth testing
+    # if form.validate_on_submit():
+    #     user = User.query.filter_by(email=form.data['email']).first()
+    #     if user and user.check_password(form.data['password']):  # Assuming you have a password check
+    #         access_token = create_access_token(identity=user.id)
+    #         return jsonify(access_token=access_token), 200
+    #     return jsonify({"error": "Invalid credentials"}), 401
+    # return jsonify(form.errors), 401
 
 
 @auth_routes.route('/logout')

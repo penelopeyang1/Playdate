@@ -2,12 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaUserCircle } from 'react-icons/fa';
 import { thunkLogout } from "../../redux/session";
+import { useNavigate } from "react-router-dom";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 
 function ProfileButton() {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((store) => store.session.user);
   const ulRef = useRef();
@@ -37,6 +39,7 @@ function ProfileButton() {
     e.preventDefault();
     dispatch(thunkLogout());
     closeMenu();
+    navigate('/')
   };
 
   return (

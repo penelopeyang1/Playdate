@@ -2,6 +2,7 @@ const LOAD_MATCHES = "matches/loadMatches";
 const CREATE_MATCH = "matches/createMatch";
 const UPDATE_MATCH = "matches/updateMatch";
 const DELETE_MATCH = "matches/deleteMatch";
+const LOAD_POTENTIAL_MATCHES = "matches/loadPotentialMatches";
 
 //action creators
 export const loadMatches = (matches) => ({
@@ -22,6 +23,11 @@ export const updateMatch = (match) => ({
 export const deleteMatch = (matchId) => ({
     type: DELETE_MATCH,
     payload: matchId,
+});
+
+export const loadPotentialMatches = (matches) => ({
+    type: LOAD_POTENTIAL_MATCHES,
+    payload: matches,
 });
 
 //thunk actions
@@ -66,25 +72,40 @@ export const thunkDeleteMatch = (matchId) => async (dispatch) => {
     }
 };
 
+export const thunkLoadPotentialMatches = (userId) => async (dispatch) => {
+    const response = await fetch(`/api/matches/potential_matches?userId=${userId}`);
+    if (response.ok) {
+        const potentialMatches = await response.json();
+        dispatch(loadPotentialMatches(potentialMatches));
+    } else {
+        console.error('Failed to fetch potential matches');
+    }
+};
+
 //reducer
-const initialState = {};
+const initialState = {
+    matches: {},
+    potentialMatches: [],
+};
 
 export default function matchesReducer(state = initialState, action) {
     switch (action.type) {
+        case LOAD_POTENTIAL_MATCHES:
+            return { ...state, potentialMatches: action.payload };
         case LOAD_MATCHES: {
-            const newState = {};
+            const newState = { ...state, matches: {} };
             action.payload.forEach((match) => {
-                newState[match.id] = match;
+                newState.matches[match.id] = match;
             });
             return newState;
         }
         case CREATE_MATCH:
-            return { ...state, [action.payload.id]: action.payload };
+            return { ...state, matches: { ...state.matches, [action.payload.id]: action.payload } };
         case UPDATE_MATCH:
-            return { ...state, [action.payload.id]: action.payload };
+            return { ...state, matches: { ...state.matches, [action.payload.id]: action.payload } };
         case DELETE_MATCH: {
-            const newStateAfterDelete = { ...state };
-            delete newStateAfterDelete[action.payload];
+            const newStateAfterDelete = { ...state, matches: { ...state.matches } };
+            delete newStateAfterDelete.matches[action.payload];
             return newStateAfterDelete;
         }
         default:

@@ -10,12 +10,12 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 16px;
-    max-width: 300px;
+    max-width: 600px;
 }
 
 .match-card img {
-    width: 100%;
-    height: auto;
+    width: 80px;
+    height: 120px;
     border-radius: 8px;
 }
 

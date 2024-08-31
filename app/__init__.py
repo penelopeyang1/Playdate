@@ -15,7 +15,7 @@ from .seeds import seed_commands
 from .config import Config
 
 #for token based auth !!
-from flask_jwt_extended import JWTManager
+# from flask_jwt_extended import JWTManager
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
 
@@ -49,8 +49,8 @@ app.register_blueprint(message_routes, url_prefix='/api/messages')
 CORS(app)
 
 # JWT token auth
-app.config['JWT_SECRET_KEY'] = 'a_secret_key'
-jwt = JWTManager(app)
+# app.config['JWT_SECRET_KEY'] = 'a_secret_key'
+# jwt = JWTManager(app)
 
 @app.before_request
 def https_redirect():

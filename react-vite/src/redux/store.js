@@ -10,6 +10,7 @@ import gamesReducer from "./game";
 import matchesReducer from "./match";
 import clipsReducer from "./clip";
 import messagesReducer from "./message";
+import usersReducer from "./user";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   matches: matchesReducer,
   clips: clipsReducer,
   messages: messagesReducer,
+  users: usersReducer
 });
 
 let enhancer;

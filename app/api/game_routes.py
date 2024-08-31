@@ -37,7 +37,9 @@ def add_game():
 
     new_game = UserGame(
         user_id=user_id,
-        game_id=game_id
+        game_id=game_id,
+        game_title=game.title,
+        game_image_url=game.image_url
     )
     db.session.add(new_game)
     try:

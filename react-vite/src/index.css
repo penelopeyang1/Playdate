@@ -1,6 +1,8 @@
 /* TODO: Add sitewide styles */
 * {
     font-family: 'Syne-Variable', sans-serif;
+    padding: 0;
+    margin: 0;
 }
 
 @font-face {
@@ -8,4 +10,12 @@
     src: url('/Syne-VariableFont_wght.ttf') format('truetype');
     /* font-weight: 100 900; */
     font-style: normal;
+}
+
+body {
+    background-color: #7263C1;
+    background-image: url('../public/playdate-background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }

@@ -3,6 +3,10 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
+    margin: 100px 0 200px;
+
+    border: 2px solid red;
 }
 
 .match-card {
@@ -10,7 +14,8 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 16px;
-    max-width: 600px;
+    width: 800px;
+    max-width: 1000px;
 }
 
 .match-card img {

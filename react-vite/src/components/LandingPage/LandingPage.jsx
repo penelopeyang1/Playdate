@@ -4,11 +4,11 @@ import GameList from '../GameList';
 function LandingPage() {
     return (
         <div className="landing-page-container">
-            <div className="better-together">
-                <h1>Gaming is better together.</h1>
-            </div>
-            <div className="meet-duo">
-                <h1>Meet your duo.</h1>
+            <div className="headline">
+                <div className="text">
+                    <h1>Gaming is better together.</h1>
+                    <h1>Find your duo.</h1>
+                </div>
             </div>
             <GameList />
         </div>

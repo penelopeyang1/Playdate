@@ -1,0 +1,114 @@
+.login-container {
+    width: 400px;
+
+    padding: 20px;
+    background-color: rgba(146, 122, 255, 0.548);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border: 2px solid rgb(170, 151, 255);
+    box-shadow: 0px 0px 20px rgb(170, 151, 255);
+
+    color: white;
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.login-container img {
+    height: 50px;
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: drop-shadow(0px 0px 10px rgb(255, 255, 255));
+}
+
+.login-container h1 {
+    padding: 20px 0;
+}
+
+.login-container form {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.login-container form label {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-container form label p {
+    color: rgb(255, 131, 131);
+}
+
+.login-container form label input {
+    all: unset;
+
+    background-color: rgb(137, 118, 218);
+    padding: 10px 15px;
+
+    border-radius: 10px;
+}
+
+.login-container .button-container {
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 30px;
+
+    gap: 10px;
+}
+
+.login-container .button-container button {
+    all: unset;
+
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.login-container .button-container .login-button {
+    background-color: rgb(142, 117, 255);
+
+    transition: 0.2s ease;
+}
+
+.login-container .button-container .login-button:hover {
+    background-color: rgb(209, 198, 255);
+    color: rgb(142, 117, 255);
+    box-shadow: 0px 0px 10px rgb(142, 117, 255);
+}
+
+.login-container .button-container .demo-button {
+    background-color: rgb(142, 117, 255);
+
+    transition: 0.2s ease;
+}
+
+.login-container .button-container .demo-button:hover {
+    background-color: rgb(209, 198, 255);
+    color: rgb(142, 117, 255);
+    box-shadow: 0px 0px 10px rgb(142, 117, 255);
+}
+
+.login-container .divider {
+    display: flex;
+    justify-content: center;
+
+    padding: 5px;
+}
+
+.login-button .divider span {
+    height: 2px;
+    width: 20px;
+    background-color: rgb(255, 255, 255);
+}

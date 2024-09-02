@@ -1,3 +1,56 @@
-.profile-dropdown {
+/* .profile-dropdown {
   position: absolute;
+} */
+
+.navbar-container {
+  /* background-color: white; */
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 20px 50px;
+}
+
+.navbar-container .login-signup-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.navbar-container .signup-button,
+.navbar-container .login-button {
+  all: unset;
+
+  padding: 10px 15px;
+  border-radius: 30px;
+}
+
+.navbar-container .login-button {
+  background-color: white;
+
+  transition: 0.2s ease;
+  cursor: pointer;
+}
+
+.navbar-container .signup-button {
+  background-color: #8961ff;
+  color: white;
+  transition: 0.2s ease;
+  cursor: pointer;
+}
+
+.navbar-container .login-button:hover {
+  background-color: #e4dcff;
+  box-shadow: 0px 0px 10px rgb(255, 255, 255);
+}
+
+.navbar-container .signup-button:hover {
+  background-color: #7b53ff;
+  box-shadow: 0px 0px 10px #693cffc2;
+  cursor: pointer;
 }

@@ -56,7 +56,7 @@ const AddGames = () => {
             ) : (
                 <div className="add-to-profile">
                     <div className="add-titles">
-                        <h1>Showcase the games you play on your profile</h1>
+                        <h1>Pick the games you play to showcase on your profile!</h1>
                         {/* <h2>Showcase the games you play on your profile :)</h2> */}
                     </div>
                     <div className="add-games">
@@ -74,13 +74,13 @@ const AddGames = () => {
                             </div>
                         ))}
                     </div>
-                        <button
-                            onClick={handleSubmit}
-                            className="submit-button"
-                            disabled={isSubmitting}
-                        >
-                            {isSubmitting ? 'Submitting...' : 'Add Selected Games'}
-                        </button>
+                    <button
+                        onClick={handleSubmit}
+                        className="submit-button"
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting ? 'Submitting...' : 'Add Selected Games'}
+                    </button>
                     {error && <p className="submit-error-message">{error}</p>}
                 </div>
             )}

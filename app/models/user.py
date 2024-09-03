@@ -2,7 +2,6 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
-
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
@@ -21,17 +20,11 @@ class User(db.Model, UserMixin):
     has_mic = db.Column(db.Boolean, default=True)
     platforms = db.Column(db.String(255))
 
-    #RELATIONSHIPS ~
-    # games = db.relationship('UserGame', back_populates='user')
+    # Relationships
     user_games = db.relationship('UserGame', back_populates='user')
     clips = db.relationship('Clip', back_populates='creator')
-    # matches = db.relationship('Match', back_populates='users', foreign_keys='[Match.user_one_id, Match.user_two_id]')
-    # matches_as_user_one = db.relationship('Match', foreign_keys='Match.user_one_id')
-    # matches_as_user_two = db.relationship('Match', foreign_keys='Match.user_two_id')
-    matches_as_user_one = db.relationship('Match', foreign_keys='Match.user_one_id', backref='match_user_one', overlaps="user_one_matches")
-    matches_as_user_two = db.relationship('Match', foreign_keys='Match.user_two_id', backref='match_user_two', overlaps="user_two_matches")
-    # match_requests_sent = db.relationship('MatchRequest', back_populates='requester', foreign_keys='MatchRequest.requester_id')
-    # match_requests_received = db.relationship('MatchRequest', back_populates='requestee', foreign_keys='MatchRequest.requestee_id')
+    matches_as_user_one = db.relationship('Match', foreign_keys='Match.user_one_id', backref='match_user_one', overlaps="user_one_matches,matches_as_user_one")
+    matches_as_user_two = db.relationship('Match', foreign_keys='Match.user_two_id', backref='match_user_two', overlaps="user_two_matches,matches_as_user_two")
     match_requests_sent = db.relationship('MatchRequest', foreign_keys='MatchRequest.requester_id', back_populates='requester')
     match_requests_received = db.relationship('MatchRequest', foreign_keys='MatchRequest.requestee_id', back_populates='requestee')
     messages = db.relationship('Message', back_populates='sender')

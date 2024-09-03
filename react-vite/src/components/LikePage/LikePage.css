@@ -1,0 +1,111 @@
+.like-page {
+    display: flex;
+    width: 100%;
+    padding: 60px 200px 200px 200px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.like-page h2 {
+    margin-bottom: 10px;
+}
+
+.like-page .liked-you,
+.like-page .you-liked {
+    flex: 1;
+    box-sizing: border-box;
+    padding: 10px 10px;
+
+    min-height: 500px;
+
+    overflow-y: auto;
+}
+
+.like-page .liked-you {
+    background-color: #5340b393;
+    backdrop-filter: blur(5px);
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.like-page .you-liked {
+    background-color: rgba(255, 255, 255, 0.287);
+    backdrop-filter: blur(5px);
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.like-page .users-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.like-page .you-liked .users-list .user-card {
+    background-color: #7263C1;
+
+    display: flex;
+    align-items: center;
+
+    width: 300px;
+    padding: 10px;
+    color: white;
+
+    border-radius: 10px;
+
+    gap: 10px;
+}
+
+.like-page .you-liked .users-list .user-card img {
+    border: 1px solid white;
+    height: 60px;
+    width: 60px;
+}
+
+.like-page .liked-you .users-list .user-card {
+    background-color: #B9AAE8;
+
+    display: flex;
+    align-items: center;
+
+    width: 300px;
+    padding: 10px;
+    color: black;
+
+    border-radius: 10px;
+
+    gap: 10px;
+}
+
+.like-page .liked-you .users-list .user-card img {
+    border: 1px solid white;
+    height: 60px;
+    width: 60px;
+}
+
+.user-card:hover {
+    transform: scale(1.01);
+}
+
+.mini-profile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.mini-profile-content {
+    position: relative;
+    /* background: white; */
+    padding: 20px;
+    border-radius: 8px;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    z-index: 1001;
+}

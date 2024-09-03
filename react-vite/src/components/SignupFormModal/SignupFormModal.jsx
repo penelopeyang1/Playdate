@@ -11,9 +11,10 @@ function SignupFormModal() {
   const { closeModal } = useModal();
 
   const [email, setEmail] = useState("");
+  const [first_name, setFirstName] = useState("");
   const [password, setPassword] = useState("");
   const [confirm_password, setConfirmPassword] = useState("");
-  const [first_name, setFirstName] = useState("");
+  const [imageFile, setImageFile] = useState(null);
   const [gender, setGender] = useState("");
   const [age, setAge] = useState("");
   const [playstyle, setPlaystyle] = useState("");
@@ -77,33 +78,91 @@ function SignupFormModal() {
     }
   };
 
-
   const handlePrevious = () => setCurrentPage(currentPage - 1);
+
+  const handleFileChange = (e) => {
+    setImageFile(e.target.files[0]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const serverResponse = await dispatch(
-      thunkSignup({
-        email,
-        password,
-        confirm_password,
-        first_name,
-        gender,
-        age,
-        playstyle,
-        region,
-        hasMic,
-        platforms,
-      })
-    );
-
-    if (serverResponse) {
-      setErrors(serverResponse);
-    } else {
-      closeModal();
-      navigate('/add-games');
+    if (!imageFile) {
+      alert("Please add a profile picture!");
+      return;
     }
+
+    try {
+      let imageUrl = null;
+
+      if (imageFile) {
+        // Upload the image to S3
+        const formData = new FormData();
+        formData.append('image', imageFile);
+
+        const uploadResponse = await fetch('/api/users/upload_profile_picture', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error('Image upload failed');
+        }
+
+        const uploadData = await uploadResponse.json();
+        imageUrl = uploadData.url; // Assuming your server responds with `url`
+      }
+
+      // Submit user data including the image URL
+      const serverResponse = await dispatch(
+        thunkSignup({
+          email,
+          password,
+          confirm_password,
+          first_name,
+          gender,
+          age,
+          playstyle,
+          region,
+          hasMic,
+          platforms,
+          image_url: imageUrl
+        })
+      );
+
+      if (serverResponse) {
+        setErrors(serverResponse);
+      } else {
+        closeModal();
+        navigate('/add-games');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert("Error occurred during signup");
+    }
+
+    // const serverResponse = await dispatch(
+    //   thunkSignup({
+    //     email,
+    //     password,
+    //     confirm_password,
+    //     first_name,
+    //     gender,
+    //     age,
+    //     playstyle,
+    //     region,
+    //     hasMic,
+    //     platforms,
+    //     image_url
+    //   })
+    // );
+
+    // if (serverResponse) {
+    //   setErrors(serverResponse);
+    // } else {
+    //   closeModal();
+    //   navigate('/add-games');
+    // }
   };
 
   return (
@@ -145,7 +204,7 @@ function SignupFormModal() {
               </label>
             </div>
             <div className="one-button-container">
-              <button type="button" className="next-button" onClick={handleNext}><i class="fa-solid fa-arrow-right-long"></i></button>
+              <button type="button" className="next-button" onClick={handleNext}><i className="fa-solid fa-arrow-right-long"></i></button>
             </div>
           </>
         )}
@@ -184,8 +243,8 @@ function SignupFormModal() {
                 />
               </label>
               <div className="two-button-container">
-                <button type="button" className="previous-button" onClick={handlePrevious}><i class="fa-solid fa-arrow-left-long"></i></button>
-                <button type="button" className="next-button" onClick={handleNext}><i class="fa-solid fa-arrow-right-long"></i></button>
+                <button type="button" className="previous-button" onClick={handlePrevious}><i className="fa-solid fa-arrow-left-long"></i></button>
+                <button type="button" className="next-button" onClick={handleNext}><i className="fa-solid fa-arrow-right-long"></i></button>
               </div>
             </div>
           </>
@@ -234,8 +293,8 @@ function SignupFormModal() {
                 />
               </label>
               <div className="two-button-container">
-                <button type="button" className="previous-button" onClick={handlePrevious}><i class="fa-solid fa-arrow-left-long"></i></button>
-                <button type="button" className="next-button" onClick={handleNext}><i class="fa-solid fa-arrow-right-long"></i></button>
+                <button type="button" className="previous-button" onClick={handlePrevious}><i className="fa-solid fa-arrow-left-long"></i></button>
+                <button type="button" className="next-button" onClick={handleNext}><i className="fa-solid fa-arrow-right-long"></i></button>
               </div>
             </div>
           </>
@@ -245,8 +304,17 @@ function SignupFormModal() {
           <>
             <h4 className="not-one">Lastly, let's add that beautiful picture of you!</h4>
             <div className="input-container">
+              <label>
+                Profile Picture
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
+                {/* {imageSrc && <img src={imageSrc} alt="Profile Preview" style={{ maxWidth: '200px', marginTop: '10px' }} />} */}
+              </label>
               <div className="two-button-container">
-                <button type="button" className="previous-button" onClick={handlePrevious}><i class="fa-solid fa-arrow-left-long"></i></button>
+                <button type="button" className="previous-button" onClick={handlePrevious}><i className="fa-solid fa-arrow-left-long"></i></button>
                 <button type="submit">Sign Up</button>
               </div>
             </div>

@@ -1,10 +1,11 @@
 // import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import './UserMenu.css'
 
 const UserMenu = () => {
-    //get the current user's ID from Redux store
+    // Get the current user's ID from Redux store
     const userId = useSelector(state => state.session.user?.id);
 
     return (
@@ -12,18 +13,30 @@ const UserMenu = () => {
             {userId && (
                 <div className="sticky-footer">
                     <nav className="footer-nav">
-                        <Link to="/find-matches" className="footer-link">
-                            <i class="fa-solid fa-p"></i>
-                        </Link>
-                        <Link to="/match-requests" className="footer-link">
-                            <i class="fa-solid fa-heart"></i>
-                        </Link>
-                        <Link to={`/chats/${userId}`} className="footer-link">
-                            <i class="fa-solid fa-comment"></i>
-                        </Link>
-                        <Link to={`/profile/${userId}`} className="footer-link">
-                            <i class="fa-solid fa-user"></i>
-                        </Link>
+                        <NavLink
+                            to="/find-matches"
+                            className={({ isActive }) => isActive ? "footer-link active" : "footer-link"}
+                        >
+                            <i className="fa-solid fa-p"></i>
+                        </NavLink>
+                        <NavLink
+                            to={`/match-requests/${userId}`}
+                            className={({ isActive }) => isActive ? "footer-link active" : "footer-link"}
+                        >
+                            <i className="fa-solid fa-heart"></i>
+                        </NavLink>
+                        <NavLink
+                            to={`/chats/${userId}`}
+                            className={({ isActive }) => isActive ? "footer-link active" : "footer-link"}
+                        >
+                            <i className="fa-solid fa-comment"></i>
+                        </NavLink>
+                        <NavLink
+                            to={`/profile/${userId}`}
+                            className={({ isActive }) => isActive ? "footer-link active" : "footer-link"}
+                        >
+                            <i className="fa-solid fa-user"></i>
+                        </NavLink>
                     </nav>
                 </div>
             )}

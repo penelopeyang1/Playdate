@@ -4,8 +4,8 @@
     left: 50%;
     transform: translateX(-50%);
 
-    background-color: rgba(62, 30, 52, 0.8);
-    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.503);
+    backdrop-filter: blur(5px);
 
     z-index: 1000;
     margin-bottom: 50px;
@@ -27,10 +27,10 @@
     justify-content: center;
     align-items: center;
 
-    color: #fff;
+    color: #B9AAE8;
     text-decoration: none;
-    background-color: #c52482;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    background-color: #7263C1;
+    transition: 0.5s ease;
 
     width: 45px;
     height: 45px;
@@ -39,11 +39,19 @@
     border-radius: 10px;
 }
 
+.footer-link.active {
+    background-color: white;
+    color: #7263C1;
+    box-shadow: 0 2px 4px 3px rgba(0, 0, 0, 0.156);
+}
+
 .footer-link i {
     font-size: 30px;
     /* color: black; */
 }
 
 .footer-link:hover {
-    background-color: #d373b9cd;
+    background-color: white;
+    color: #7263C1;
+    box-shadow: 0 2px 4px 3px rgba(0, 0, 0, 0.156);
 }

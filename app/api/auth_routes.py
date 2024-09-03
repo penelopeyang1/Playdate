@@ -3,11 +3,16 @@ from app.models import User, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
+# from werkzeug.utils import secure_filename
+from app.api.aws_helper import upload_file_to_s3, get_unique_filename, ALLOWED_EXTENSIONS, allowed_file
+
+import boto3
 
 # from flask_jwt_extended import create_access_token
 
 auth_routes = Blueprint('auth', __name__)
-
+# signup_routes = Blueprint('signup', __name__)
+# s3 = boto3.client('s3')
 
 @auth_routes.route('/')
 def authenticate():
@@ -63,6 +68,26 @@ def sign_up():
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if form.validate_on_submit():
+        # Handle file upload
+        file = request.files.get('image')
+        print("Received file:", file)
+        file_url = None
+
+        if file and allowed_file(file.filename):
+            try:
+                # Upload image and get the URL
+                response = upload_file_to_s3(file)
+                print("S3 Response:", response)
+                if 'errors' in response:
+                    return jsonify({'error': response['errors']}), 500
+                file_url = response.get('url')
+                print("File URL:", file_url)
+            except Exception as e:
+                print(f"Error uploading file: {e}")
+                return jsonify({'error': 'File upload failed'}), 500
+        elif file:
+            return jsonify({'error': 'Invalid file type'}), 400
+
         user = User(
             email=form.data['email'],
             password=form.data['password'],
@@ -73,12 +98,14 @@ def sign_up():
             region=form.data.get('region'),
             has_mic=form.data.get('hasMic'),
             platforms=form.data.get('platforms'),
-            image_url=form.data.get('imageUrl')
+            image_url=file_url
         )
         db.session.add(user)
         db.session.commit()
+        print("User after commit:", user.to_dict())
         login_user(user)
-        return user.to_dict()
+        return user.to_dict(), 201
+
     print(form.errors)
     return form.errors, 401
 

@@ -14,3 +14,11 @@ class MatchRequest(db.Model):
     #RELATIONSIPS
     requester = db.relationship('User', foreign_keys=[requester_id], back_populates='match_requests_sent')
     requestee = db.relationship('User', foreign_keys=[requestee_id], back_populates='match_requests_received')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'requester_id': self.requester_id,
+            'requestee_id': self.requestee_id,
+            'status': self.status
+        }

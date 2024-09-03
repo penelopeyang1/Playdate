@@ -84,9 +84,9 @@ export const thunkLoadUserGames = (userId) => async (dispatch) => {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const games = await response.json();
-        console.log('Loaded user games:', games);
-        dispatch(loadUserGames(games));
+        const userGames = await response.json();
+        console.log('Loaded user games:', userGames);
+        dispatch(loadUserGames(userGames));
     } catch (error) {
         console.error('Error fetching user games:', error);
     }
@@ -111,14 +111,14 @@ export const thunkUpdateGame = (gameId, updateData) => async (dispatch) => {
     }
 };
 
-export const thunkDeleteGame = (gameId) => async (dispatch) => {
+export const thunkDeleteGame = (userGameId) => async (dispatch) => {
     try {
-        const response = await fetch(`/api/games/${gameId}`, {
+        const response = await fetch(`/api/games/${userGameId}`, {
             method: "DELETE",
         });
 
         if (response.ok) {
-            dispatch(deleteGame(gameId));
+            dispatch(deleteGame(userGameId)); // Use the primary key id
         } else {
             console.error(`Failed to delete game. Status: ${response.status}`);
         }

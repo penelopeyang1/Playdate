@@ -1,19 +1,128 @@
-.mini-profile-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    width: 300px;
-}
-
 .profile-page-container {
-    margin: 100px 0 200px;
+    margin: 0 0 200px;
     padding: 0 60px;
 
-    border: 2px solid red;
+    /* border: 2px solid red; */
+}
+
+.profile-page-container .title {
+    margin: 20px 0;
+}
+
+.profile-page-container .user-details .img-name {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    width: 50%;
+
+    background-color: #8258ffbc;
+
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.345);
+}
+
+.profile-page-container .user-details .img-name img {
+    width: 140px;
+    height: 140px;
+
+    border: 1px solid white;
+}
+
+.profile-page-container .user-details .img-name .name-email {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.profile-page-container .user-details .img-name .name-email button {
+    all: unset;
+
+    background-color: #c1adffbc;
+    border-radius: 5px;
+    padding: 3px;
+
+    display: flex;
+    justify-content: center;
+
+    transition: 0.2s ease;
+}
+
+.profile-page-container .user-details .img-name .name-email button:hover {
+    background-color: white;
+}
+
+.profile-page-container .user-details .img-name .name-email h2 {
+    font-size: 40px;
+}
+
+.profile-page-container .user-details .details {
+    /* border: 1px solid red; */
+
+    margin: 20px 0;
+
+    background-color: rgba(161, 129, 255, 0.588);
+    padding: 10px;
+
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.345);
+
+    display: flex;
+    gap: 20px;
+    font-size: 20px;
+
+    width: 50%;
+}
+
+.profile-page-container .profile-games-list {
+    /* border: 2px solid red; */
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+
+    background-color: rgba(208, 191, 255, 0.588);
+    border-radius: 10px;
+}
+
+.profile-page-container .profile-games-list img {
+    height: 200px;
+    width: 130px;
+
+    border-radius: 8px;
+}
+
+.profile-page-container .profile-games h2 {
+    padding: 20px 0 10px 0;
+}
+
+.profile-page-container .profile-games .add-game-button {
+    all: unset;
+    margin-bottom: 20px;
+
+    background-color: white;
+    padding: 5px 10px;
+    border-radius: 10px;
+
+    transition: 0.2s ease;
+}
+
+.profile-page-container .profile-games .add-game-button:hover {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+.profile-page-container .profile-games-list .game-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-page-container .profile-games-list .game-item .delete-button button {
+    all: unset;
+
+    padding: 5px;
 }

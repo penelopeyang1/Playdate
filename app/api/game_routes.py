@@ -64,24 +64,15 @@ def get_all_games():
 @game_routes.route('/user/<int:user_id>', methods=['GET'])
 def get_user_games(user_id):
     try:
-        # Join UserGame with Game to get the actual game details
-        user_games = db.session.query(UserGame).join(Game).filter(UserGame.user_id == user_id).all()
+        # Fetch UserGame entries directly to get the primary keys
+        user_games = UserGame.query.filter(UserGame.user_id == user_id).all()
 
         # Check if user has no games
         if not user_games:
             return jsonify([]), 200  # Return an empty list if no games found
 
-        # Prepare a list of dictionaries including game details
-        games_list = []
-        for user_game in user_games:
-            game = user_game.game  # Access the associated Game object
-            game_dict = {
-                "id": game.id,
-                "title": game.title,
-                "image_url": game.image_url,
-                # Add any other game fields you need
-            }
-            games_list.append(game_dict)
+        # Prepare a list of dictionaries including UserGame details with primary key
+        games_list = [user_game.to_dict() for user_game in user_games]
 
         return jsonify(games_list), 200
     except Exception as e:
@@ -100,11 +91,23 @@ def update_game(game_id):
     return jsonify({"error": "Game not found"}), 404
 
 #DELETE
-@game_routes.route('/<int:game_id>', methods=['DELETE'])
-def delete_game(game_id):
-    game = UserGame.query.get(game_id)
-    if game:
-        db.session.delete(game)
-        db.session.commit()
-        return jsonify({"message": "Game deleted"}), 200
-    return jsonify({"error": "Game not found"}), 404
+@game_routes.route('/<int:id>', methods=['DELETE'])
+def delete_game(id):
+    app.logger.debug(f"Received DELETE request for game with primary key ID: {id}")
+
+    # Fetch the UserGame entry by primary key ID
+    user_game = UserGame.query.get(id)
+
+    if user_game:
+        db.session.delete(user_game)
+        try:
+            db.session.commit()
+            app.logger.info(f"Successfully deleted UserGame entry with primary key ID: {id}")
+            return jsonify({"message": "Game deleted"}), 200
+        except Exception as e:
+            db.session.rollback()
+            app.logger.error(f"Database commit error when deleting game: {str(e)}")
+            return jsonify({"error": "Failed to delete game due to server error"}), 500
+    else:
+        app.logger.error(f"Game not found with primary key ID: {id}")
+        return jsonify({"error": "Game not found"}), 404

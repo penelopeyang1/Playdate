@@ -1,0 +1,89 @@
+.chat-list {
+    /* border: 2px solid red; */
+    width: 100vw;
+    height: 100vh;
+
+    box-sizing: border-box;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chat-list .no-matches {
+    margin-top: 300px;
+    color: white;
+}
+
+.chat-list .matches-list {
+    /* border: 2px solid red; */
+
+    box-sizing: border-box;
+    height: 100%;
+
+    padding: 0 10px;
+
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.267);
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.718);
+
+    width: 700px;
+    max-width: 700px;
+}
+
+.chat-list .matches-list h2 {
+    margin: 20px 20px;
+}
+
+.chat-list .matches-list .card {
+    background-color: rgba(255, 255, 255, 0.48);
+    border-radius: 15px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 10px 20px;
+
+    transition: 0.3s ease;
+}
+
+.chat-list .matches-list .card:hover {
+    background-color: rgba(255, 255, 255, 0.685);
+    cursor: pointer;
+}
+
+.chat-list .matches-list .card .img-details {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.chat-list .matches-list .card img {
+    border: 1px solid rgb(255, 255, 255);
+    width: 70px;
+    height: 70px;
+
+    border-radius: 50%;
+    position: relative;
+}
+
+.chat-list .matches-list .card .buttons button {
+    all: unset;
+
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-list .matches-list .card .buttons button:hover {
+    background-color: rgba(0, 0, 0, 0.068);
+}

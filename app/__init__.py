@@ -94,7 +94,7 @@ def react_root(path):
     React builds in the production environment for favicon
     or index.html requests.
     """
-    if path.startswith('api/'):
+    if path.startswith('/api/'):
         # Prevent serving React app for API routes
         return jsonify({"error": "Not found"}), 404
     elif path == 'favicon.ico':

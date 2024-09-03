@@ -9,21 +9,21 @@
     /* padding: 30px 0; */
 }
 
-.game-image {
+.game-list-container .game-image {
     width: 200px;
     height: 300px;
     border-radius: 15px;
     border: 2px solid white;
 }
 
-.game-item {
+.game-list-container .game-item {
     flex: 0 0 auto;
     display: inline-block;
     /* box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.75); */
     border-radius: 15px;
 }
 
-.game-list {
+.game-list-container .game-list {
     display: flex;
     flex-direction: row;
     overflow-x: hidden;
@@ -34,6 +34,6 @@
     /* box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.75); */
 }
 
-.game-list::-webkit-scrollbar {
+.game-list-container .game-list::-webkit-scrollbar {
     display: none;
 }

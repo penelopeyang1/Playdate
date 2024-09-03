@@ -1,152 +1,116 @@
-// import { useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { thunkLoadPotentialMatches } from '../../redux/match';
-// import './MatchPage.css';
-
-// const MatchPage = () => {
-//     const dispatch = useDispatch();
-//     const potentialMatches = useSelector((state) => state.matches.potentialMatches);
-//     const userId = useSelector((state) => state.session.user.id);
-
-//     useEffect(() => {
-//         dispatch(thunkLoadPotentialMatches(userId));
-//     }, [dispatch, userId]);
-
-//     const handleSwipeRight = () => {
-//             if (potentialMatches.length > 0) {
-//                 const match = potentialMatches[currentMatchIndex];
-//                 dispatch(thunkCreateMatch(userId, match.id)); // Ensure this action exists
-//                 setCurrentMatchIndex((prevIndex) => (prevIndex + 1) % potentialMatches.length);
-//             }
-//         };
-
-//     const handleSwipeLeft = () => {
-//         setCurrentMatchIndex((prevIndex) => (prevIndex + 1) % potentialMatches.length);
-//     };
-
-//     return (
-//         <div className="match-page">
-//             {potentialMatches.length > 0 ? (
-//                 <div className="potential-matches-list">
-//                     {potentialMatches.map((match) => (
-//                         <div key={match.id} className="match-card">
-//                             <img src={match.imageUrl} alt={`${match.firstName}'s profile`} />
-//                             <h2>{match.firstName}</h2>
-//                             <p>{match.age} years old</p>
-//                             <p>Playstyle: {match.playstyle}</p>
-//                             <p>Region: {match.region}</p>
-//                             <div className="swipe-buttons">
-//                                 <button onClick={handleSwipeLeft}>Swipe Left</button>
-//                                 <button onClick={handleSwipeRight}>Swipe Right</button>
-//                             </div>
-//                         </div>
-//                     ))}
-//                 </div>
-//             ) : (
-//                 <p>No potential matches available</p>
-//             )}
-//         </div>
-//     );
-// };
-
-// export default MatchPage;
-
-// import { useEffect, useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { thunkLoadPotentialMatches, thunkCreateMatch } from '../../redux/match';
-// import MiniProfile from '../MiniProfile'; // Import MiniProfile component
-// import './MatchPage.css';
-
-// const MatchPage = () => {
-//     const dispatch = useDispatch();
-//     const potentialMatches = useSelector((state) => state.matches.potentialMatches || []);
-//     const userId = useSelector((state) => state.session.user.id);
-//     const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
-
-//     useEffect(() => {
-//         dispatch(thunkLoadPotentialMatches(userId));
-//     }, [dispatch, userId]);
-
-//     // const filteredMatches = potentialMatches.filter(match => match.id !== userId);
-//     const filteredMatches = potentialMatches.filter(match => match.id.toString() !== userId.toString());
-
-//     const handleSwipeRight = () => {
-//         if (filteredMatches.length > 0) {
-//             const match = filteredMatches[currentMatchIndex];
-//             dispatch(thunkCreateMatch({ user_one_id: userId, user_two_id: match.id, status: 'pending' }));
-//             setCurrentMatchIndex((prevIndex) => (prevIndex + 1) % filteredMatches.length);
-//         }
-//     };
-
-//     const handleSwipeLeft = () => {
-//         setCurrentMatchIndex((prevIndex) => (prevIndex + 1) % filteredMatches.length);
-//     };
-
-//     const currentMatch = filteredMatches[currentMatchIndex];
-
-//     return (
-//         <div className="match-page">
-//             {filteredMatches.length > 0 ? (
-//                 <div className="match-card">
-//                     <MiniProfile userId={currentMatch.id} />
-//                     <div className="swipe-buttons">
-//                         <button onClick={handleSwipeLeft}>Swipe Left</button>
-//                         <button onClick={handleSwipeRight}>Swipe Right</button>
-//                     </div>
-//                 </div>
-//             ) : (
-//                 <p>No potential matches available</p>
-//             )}
-//         </div>
-//     );
-// };
-
-// export default MatchPage;
-
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { thunkLoadPotentialMatches, thunkCreateMatch } from '../../redux/match';
+import { thunkLoadPotentialMatches, thunkCreateLike, thunkCreateDislike, loadUsersWhoLikedMe, thunkLoadUsersLikedByMe, thunkLoadMatches } from '../../redux/match';
 import MiniProfile from '../MiniProfile';
 import './MatchPage.css';
 
 const MatchPage = () => {
     const dispatch = useDispatch();
-    const potentialMatches = useSelector((state) => state.matches.potentialMatches || []);
-    const userId = useSelector((state) => state.session.user.id);
+    const user = useSelector(state => state.session.user);
+    const userId = user?.id;
+    const potentialMatches = useSelector(state => state.matches.potentialMatches || []);
+    const likedUsers = useSelector(state => state.matches.likedUsers || []);
+    const likes = useSelector(state => state.matches.likes || []);
+    const matches = useSelector(state => state.matches.matches || {});
     const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
+    const [animationClass, setAnimationClass] = useState('');
 
     useEffect(() => {
-        dispatch(thunkLoadPotentialMatches(userId));
+        if (userId) {
+            dispatch(thunkLoadPotentialMatches(userId));
+            dispatch(loadUsersWhoLikedMe(userId));
+            dispatch(thunkLoadUsersLikedByMe(userId));
+            dispatch(thunkLoadMatches(userId));
+        }
     }, [dispatch, userId]);
 
     const filteredMatches = potentialMatches.filter(match => match.id !== userId);
+    const currentMatch = filteredMatches[currentMatchIndex];
+
+    useEffect(() => {
+        document.body.style.overflow = "hidden";
+
+        return () => {
+            document.body.style.overflow = "auto";
+        };
+    }, []);
+
+    const checkMutualLike = (matchId) => {
+        return matches[matchId]?.status === 'matched';
+    };
 
     const handleSwipeRight = () => {
         if (filteredMatches.length > 0) {
             const match = filteredMatches[currentMatchIndex];
-            dispatch(thunkCreateMatch({ user_one_id: userId, user_two_id: match.id, status: 'pending' }));
-            setCurrentMatchIndex((prevIndex) => (prevIndex + 1) % filteredMatches.length);
+            console.log('Current Match:', match);
+
+            dispatch(thunkCreateLike(userId, match.id)).then(() => {
+                dispatch(thunkLoadMatches(userId)).then(() => {
+                    const mutualLike = checkMutualLike(match.id);
+
+                    console.log('Current User ID:', userId);
+                    console.log('Liked User ID:', match.id);
+                    console.log('Users Who Liked Me:', likedUsers.map(user => user.id));
+                    console.log('Likes by Current User:', likes.map(like => like.requestee_id));
+                    console.log('Mutual Like (after refresh):', mutualLike);
+
+                    setAnimationClass(mutualLike ? 'match-made' : 'swipe-right');
+
+                    setTimeout(() => {
+                        setAnimationClass('');
+                        if (currentMatchIndex < filteredMatches.length - 1) {
+                            setCurrentMatchIndex((prevIndex) => prevIndex + 1);
+                        } else {
+                            setCurrentMatchIndex(-1);
+                        }
+                    }, 500);
+                });
+            });
         }
     };
 
     const handleSwipeLeft = () => {
-        setCurrentMatchIndex((prevIndex) => (prevIndex + 1) % filteredMatches.length);
+        if (filteredMatches.length > 0) {
+            const match = filteredMatches[currentMatchIndex];
+            setAnimationClass('swipe-left');
+            setTimeout(() => {
+                dispatch(thunkCreateDislike(userId, match.id)).then(() => {
+                    setAnimationClass('');
+                    if (currentMatchIndex < filteredMatches.length - 1) {
+                        setCurrentMatchIndex((prevIndex) => prevIndex + 1);
+                    } else {
+                        setCurrentMatchIndex(-1);
+                    }
+                });
+            }, 300);
+        }
     };
 
-    const currentMatch = filteredMatches[currentMatchIndex];
+    if (!userId) {
+        return <p>Loading user data...</p>;
+    }
+
+    if (currentMatchIndex === -1 || filteredMatches.length === 0) {
+        return (
+            <div className='no-more-msg'>
+                <p>No more potential matches available.</p>
+                <p>Come back again later!</p>
+            </div>
+        )
+    }
 
     return (
         <div className="match-page">
             {filteredMatches.length > 0 ? (
-                <div className="match-card">
+                <div className={`match-card ${animationClass}`}>
                     <MiniProfile userId={currentMatch?.id} />
                     <div className="swipe-buttons">
-                        <button onClick={handleSwipeLeft}>Swipe Left</button>
-                        <button onClick={handleSwipeRight}>Swipe Right</button>
+                        <button className='dislike-button' onClick={handleSwipeLeft}><i className="fa-solid fa-heart-crack"></i></button>
+                        <button className='like-button' onClick={handleSwipeRight}><i className="fa-solid fa-heart"></i></button>
                     </div>
                 </div>
             ) : (
-                <p>No potential matches available</p>
+                <p>Loading potential matches...</p>
             )}
         </div>
     );

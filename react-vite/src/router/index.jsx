@@ -1,4 +1,5 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import ProfilePage from '../components/ProfilePage';
@@ -7,12 +8,25 @@ import AddGames from '../components/AddGames';
 // import ClipList from '../components/ClipList';
 import MiniProfile from '../components/MiniProfile';
 import MatchPage from '../components/MatchPage';
-import MatchRequests from '../components/MatchRequests';
+import LikePage from '../components/LikePage';
 import ChatList from '../components/ChatList'; //list of all chats
 // import ChatPage from '../components/ChatPage'; //show messages in a specific chat
 import NotFoundPage from '../components/NotFoundPage';
 import Layout from './Layout';
 import LandingPage from '../components/LandingPage/LandingPage';
+
+const AuthRedirect = ({ element }) => {
+  const isAuthenticated = useSelector(state => state.session.isAuthenticated);
+  const userId = useSelector(state => state.session.user?.id);
+
+  // If the user is authenticated, redirect to their profile page
+  if (isAuthenticated) {
+    return <Navigate to={`/profile/${userId}`} replace />;
+  }
+
+  // Otherwise, render the given element (e.g., the LandingPage)
+  return element;
+};
 
 export const router = createBrowserRouter([
   {
@@ -20,7 +34,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <LandingPage />,
+        element: <AuthRedirect element={<LandingPage />} />, // Use the AuthRedirect component
         children: [
           {
             path: "all",
@@ -54,7 +68,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "match-requests/:userId",
-        element: <MatchRequests />,
+        element: <LikePage />,
       },
       {
         path: "chats/:userId",

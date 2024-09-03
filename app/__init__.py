@@ -70,40 +70,67 @@ def inject_csrf_token(response):
     )
     return response
 
+# @app.route("/api/docs")
+# def api_help():
+#     """
+#     Returns all API routes and their doc strings
+#     """
+#     acceptable_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+#     route_list = {
+#         rule.rule: [
+#             [method for method in rule.methods if method in acceptable_methods],
+#             app.view_functions[rule.endpoint].__doc__
+#         ]
+#         for rule in app.url_map.iter_rules()
+#         if rule.endpoint != 'static'
+#     }
+#     return jsonify(route_list)
+
 @app.route("/api/docs")
 def api_help():
     """
     Returns all API routes and their doc strings
     """
     acceptable_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
-    route_list = {
-        rule.rule: [
-            [method for method in rule.methods if method in acceptable_methods],
-            app.view_functions[rule.endpoint].__doc__
-        ]
-        for rule in app.url_map.iter_rules()
-        if rule.endpoint != 'static'
-    }
-    return jsonify(route_list)
+    route_list = { rule.rule: [[ method for method in rule.methods if method in acceptable_methods ],
+                    app.view_functions[rule.endpoint].__doc__ ]
+                    for rule in app.url_map.iter_rules() if rule.endpoint != 'static' }
+    return route_list
+
+# @app.route('/', defaults={'path': ''})
+# @app.route('/<path:path>')
+# def react_root(path):
+#     """
+#     This route will direct to the public directory in our
+#     React builds in the production environment for favicon
+#     or index.html requests.
+#     """
+#     if path.startswith('/api/'):
+#         # Prevent serving React app for API routes
+#         return jsonify({"error": "Not found"}), 404
+#     elif path == 'favicon.ico':
+#         return app.send_from_directory(app.static_folder, 'favicon.ico')
+#     return app.send_static_file('index.html')
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def react_root(path):
     """
     This route will direct to the public directory in our
-    React builds in the production environment for favicon
-    or index.html requests.
+    react builds in the production environment for favicon
+    or index.html requests
     """
-    if path.startswith('/api/'):
-        # Prevent serving React app for API routes
-        return jsonify({"error": "Not found"}), 404
-    elif path == 'favicon.ico':
-        return app.send_from_directory(app.static_folder, 'favicon.ico')
+    if path == 'favicon.ico':
+        return app.send_from_directory('public', 'favicon.ico')
     return app.send_static_file('index.html')
 
 @app.errorhandler(404)
-def not_found(error):
-    return jsonify({"error": "Not found"}), 404
+def not_found(e):
+    return app.send_static_file('index.html')
+
+# @app.errorhandler(404)
+# def not_found(error):
+#     return jsonify({"error": "Not found"}), 404
 
 # # @app.errorhandler(404)
 # # def not_found(e):

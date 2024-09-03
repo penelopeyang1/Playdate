@@ -14,7 +14,7 @@ function SignupFormModal() {
   const [first_name, setFirstName] = useState("");
   const [password, setPassword] = useState("");
   const [confirm_password, setConfirmPassword] = useState("");
-  const [imageFile, setImageFile] = useState(null);
+  // const [imageFile, setImageFile] = useState(null);
   const [gender, setGender] = useState("");
   const [age, setAge] = useState("");
   const [playstyle, setPlaystyle] = useState("");
@@ -80,38 +80,38 @@ function SignupFormModal() {
 
   const handlePrevious = () => setCurrentPage(currentPage - 1);
 
-  const handleFileChange = (e) => {
-    setImageFile(e.target.files[0]);
-  };
+  // const handleFileChange = (e) => {
+  //   setImageFile(e.target.files[0]);
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!imageFile) {
-      alert("Please add a profile picture!");
-      return;
-    }
+    // if (!imageFile) {
+    //   alert("Please add a profile picture!");
+    //   return;
+    // }
 
     try {
-      let imageUrl = null;
+      // let imageUrl = null;
 
-      if (imageFile) {
-        // Upload the image to S3
-        const formData = new FormData();
-        formData.append('image', imageFile);
+      // if (imageFile) {
+      //   // Upload the image to S3
+      //   const formData = new FormData();
+      //   formData.append('image', imageFile);
 
-        const uploadResponse = await fetch('/api/users/upload_profile_picture', {
-          method: 'POST',
-          body: formData,
-        });
+      //   const uploadResponse = await fetch('/api/users/upload_profile_picture', {
+      //     method: 'POST',
+      //     body: formData,
+      //   });
 
-        if (!uploadResponse.ok) {
-          throw new Error('Image upload failed');
-        }
+      //   if (!uploadResponse.ok) {
+      //     throw new Error('Image upload failed');
+      //   }
 
-        const uploadData = await uploadResponse.json();
-        imageUrl = uploadData.url; // Assuming your server responds with `url`
-      }
+      //   const uploadData = await uploadResponse.json();
+      //   imageUrl = uploadData.url; // Assuming your server responds with `url`
+      // }
 
       // Submit user data including the image URL
       const serverResponse = await dispatch(
@@ -126,7 +126,7 @@ function SignupFormModal() {
           region,
           hasMic,
           platforms,
-          image_url: imageUrl
+          // image_url: imageUrl
         })
       );
 
@@ -302,17 +302,16 @@ function SignupFormModal() {
 
         {currentPage === 4 && (
           <>
-            <h4 className="not-one">Lastly, let's add that beautiful picture of you!</h4>
+            {/* <h4 className="not-one">Lastly, let's add that beautiful picture of you!</h4> */}
             <div className="input-container">
-              <label>
+              {/* <label>
                 Profile Picture
                 <input
                   type="file"
                   accept="image/*"
                   onChange={handleFileChange}
                 />
-                {/* {imageSrc && <img src={imageSrc} alt="Profile Preview" style={{ maxWidth: '200px', marginTop: '10px' }} />} */}
-              </label>
+              </label> */}
               <div className="two-button-container">
                 <button type="button" className="previous-button" onClick={handlePrevious}><i className="fa-solid fa-arrow-left-long"></i></button>
                 <button type="submit">Sign Up</button>

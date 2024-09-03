@@ -22,7 +22,8 @@ def seed_users():
         region='East',
         playstyle='Competitive',
         has_mic=True,
-        platforms='PC'
+        platforms='PC',
+        image_url='https://playdate-images.s3.amazonaws.com/Faker-pfp.jpg'
         )
     pokimane = User(
         first_name='Imane',

@@ -14,7 +14,7 @@ const DeleteGameModal = ({ gameId }) => {
 
     return (
         <div className='delete-game-modal'>
-            <img src='../public/diamond-star.png' alt='Confirmation Icon'></img>
+            <img src='../diamond-star.png' alt='Confirmation Icon'></img>
             <div className="title">
                 <h3>Are you sure you want to delete this game?</h3>
             </div>

@@ -55,7 +55,7 @@ function LoginFormModal() {
 
   return (
     <div className="login-container">
-      <img src='../public/diamond-star.png'></img>
+      <img src='../diamond-star.png'></img>
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         <label>

@@ -13,6 +13,7 @@ const ChatList = () => {
     const matches = useSelector(state => state.matches.matches || {});
     const [selectedUser, setSelectedUser] = useState(null);
     const overlayRef = useRef(null);
+    const [starredMatches, setStarredMatches] = useState([]);
 
     useEffect(() => {
         if (userId) {
@@ -22,6 +23,16 @@ const ChatList = () => {
 
     const handleUserClick = (user) => {
         setSelectedUser(user);
+    };
+
+    const handleToggleStar = (matchId) => {
+        setStarredMatches(prevStarredMatches => {
+            if (prevStarredMatches.includes(matchId)) {
+                return prevStarredMatches.filter(id => id !== matchId);
+            } else {
+                return [...prevStarredMatches, matchId];
+            }
+        });
     };
 
     const handleCloseProfile = () => {
@@ -80,6 +91,13 @@ const ChatList = () => {
                                     </div>
                                 </div>
                                 <div className='buttons' onClick={(event) => event.stopPropagation()}>
+                                    {/* starring matches */}
+                                    <button
+                                        className={`star-button ${starredMatches.includes(match.id) ? 'starred' : ''}`}
+                                        onClick={() => handleToggleStar(match.id)}
+                                    >
+                                        {starredMatches.includes(match.id) ? '★' : '☆'}
+                                    </button>
                                     <OpenModalButton
                                         buttonText={<i className="fa-solid fa-xmark"></i>}
                                         className='unmatch-button'

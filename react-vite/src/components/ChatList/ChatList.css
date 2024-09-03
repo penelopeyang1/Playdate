@@ -87,3 +87,19 @@
 .chat-list .matches-list .card .buttons button:hover {
     background-color: rgba(0, 0, 0, 0.068);
 }
+
+.star-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: gold;
+}
+
+.star-button.starred {
+    color: gold;
+}
+
+.star-button:not(.starred) {
+    color: gray;
+}

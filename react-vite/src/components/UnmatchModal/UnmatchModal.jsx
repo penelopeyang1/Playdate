@@ -24,7 +24,7 @@ const UnmatchModal = ({ matchId }) => {
 
     return (
         <div className="unmatch-modal">
-            <img src='../public/diamond-star.png'></img>
+            <img src='../diamond-star.png'></img>
             <div className="title">
                 <h3>Are you sure you want to unmatch?</h3>
             </div>

@@ -167,7 +167,7 @@ function SignupFormModal() {
 
   return (
     <div className="sign-up-container">
-      <img src='../public/diamond-star.png'></img>
+      <img src='../diamond-star.png'></img>
       {errors.server && <p>{errors.server}</p>}
       <form onSubmit={handleSubmit}>
         {currentPage === 1 && (

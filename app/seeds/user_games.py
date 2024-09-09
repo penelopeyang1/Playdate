@@ -8,12 +8,15 @@ def seed_user_games():
         'pokimane': 3,
         'jett': 4,
         'pewdiepie': 5,
-        'itachi': 6,
-        'ninja': 7,
-        'kyedae': 8,
-        'tenz': 9,
-        'penelope': 10,
-        'alexander': 11
+        'ninja': 6,
+        'kyedae': 7,
+        'tenz': 8,
+        'penelope': 9,
+        'alexander': 10,
+        'jungkook': 11,
+        'valkyrae': 12,
+        'tyler1': 13,
+        'chaewon': 14
     }
 
     game_ids = {
@@ -43,12 +46,15 @@ def seed_user_games():
         (user_ids['pokimane'], [game_ids['Among Us'], game_ids['Dead by Daylight'], game_ids['Lethal Company']]),
         (user_ids['jett'], [game_ids['Valorant'], game_ids['Grand Theft Auto']]),
         (user_ids['pewdiepie'], [game_ids['Minecraft'], game_ids['Elden Ring'], game_ids['Grand Theft Auto']]),
-        (user_ids['itachi'], [game_ids['Fall Guys'], game_ids['Overwatch 2'], game_ids['Genshin Impact']]),
         (user_ids['ninja'], [game_ids['Fortnite'], game_ids['Apex Legends'], game_ids['Call of Duty']]),
         (user_ids['kyedae'], [game_ids['Valorant'], game_ids['Among Us']]),
         (user_ids['tenz'], [game_ids['Valorant']]),
-        (user_ids['penelope'], [game_ids['Fortnite'], game_ids['Genshin Impact'], game_ids['Valorant'], game_ids['League of Legends'], game_ids['Minecraft'], game_ids['Palworld']]),
-        (user_ids['alexander'], [game_ids['Rocket League'], game_ids['Fortnite'], game_ids['Valorant'], game_ids['Palworld'], game_ids['Minecraft']])
+        (user_ids['penelope'], [game_ids['Fortnite'], game_ids['Genshin Impact'], game_ids['Valorant'], game_ids['League of Legends']]),
+        (user_ids['alexander'], [game_ids['Rocket League'], game_ids['Fortnite'], game_ids['Valorant'], game_ids['Minecraft']]),
+        (user_ids['jungkook'], [game_ids['League of Legends'], game_ids['Overwatch 2']]),
+        (user_ids['valkyrae'], [game_ids['Among Us'], game_ids['Valorant'], game_ids['Fortnite']]),
+        (user_ids['tyler1'], [game_ids['League of Legends'], game_ids['Fortnite']]),
+        (user_ids['chaewon'], [game_ids['Overwatch 2'], game_ids['Roblox']]),
     ]
 
     #add user-game associations to the session
@@ -60,7 +66,7 @@ def seed_user_games():
                     user_id=userId,
                     game_id=game_id,
                     game_title=game.title,
-                    game_image_url=game.image_url  
+                    game_image_url=game.image_url
                 )
                 db.session.add(user_game)
 

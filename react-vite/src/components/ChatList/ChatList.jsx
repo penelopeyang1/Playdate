@@ -84,7 +84,7 @@ const ChatList = () => {
                                 onClick={() => handleUserClick(matched_user)}
                             >
                                 <div className='img-details'>
-                                    <img src={matched_user.profile_image_url} alt={matched_user.first_name} />
+                                    <img src={matched_user.image_url} alt={matched_user.first_name} />
                                     <div className='name-desc'>
                                         <h4>{matched_user.first_name}</h4>
                                         <span>Start the chat with {matched_user.first_name}!</span>

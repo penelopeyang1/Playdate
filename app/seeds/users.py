@@ -11,7 +11,8 @@ def seed_users():
         region='West',
         playstyle='Social',
         has_mic=False,
-        platforms='PC'
+        platforms='PC',
+        image_url='https://playdate-images.s3.amazonaws.com/demo.PNG'
         )
     faker = User(
         first_name='Sang-hyeok',
@@ -23,7 +24,7 @@ def seed_users():
         playstyle='Competitive',
         has_mic=True,
         platforms='PC',
-        image_url='https://playdate-images.s3.amazonaws.com/Faker-pfp.jpg'
+        image_url='https://playdate-images.s3.amazonaws.com/faker.jpg'
         )
     pokimane = User(
         first_name='Imane',
@@ -34,7 +35,8 @@ def seed_users():
         region='West',
         playstyle='Social',
         has_mic=True,
-        platforms='PC'
+        platforms='PC',
+        image_url='https://playdate-images.s3.amazonaws.com/pokimane.jpg'
         )
     jett = User(
         first_name='Jett',
@@ -45,7 +47,8 @@ def seed_users():
         region='East',
         playstyle='Competitive',
         has_mic=True,
-        platforms='PC'
+        platforms='PC',
+        image_url='https://playdate-images.s3.amazonaws.com/jett.jpg'
         )
     pewdiepie = User(
         first_name='Felix',
@@ -56,18 +59,8 @@ def seed_users():
         region='Southwest',
         playstyle='Explorative',
         has_mic=True,
-        platforms='PC and Console'
-        )
-    itachi = User(
-        first_name='Itachi',
-        email='ilovesasuke@gmail.com',
-        password='ur2weak',
-        gender='Male',
-        age='23',
-        region='Southeast',
-        playstyle='Competitive',
-        has_mic=True,
-        platforms='PC and Mobile'
+        platforms='PC and Console',
+        image_url='https://playdate-images.s3.amazonaws.com/pewdiepie.JPG'
         )
     ninja = User(
         first_name='Richard',
@@ -78,7 +71,8 @@ def seed_users():
         region='West',
         playstyle='Competitive',
         has_mic=True,
-        platforms='PC'
+        platforms='PC',
+        image_url='https://playdate-images.s3.amazonaws.com/ninja.jpg'
         )
     kyedae = User(
         first_name='Kyedae',
@@ -89,7 +83,8 @@ def seed_users():
         region='West',
         playstyle='Casual',
         has_mic=True,
-        platforms='PC'
+        platforms='PC',
+        image_url='https://playdate-images.s3.amazonaws.com/kyedae.WEBP'
         )
     tenz = User(
         first_name='Tyson',
@@ -100,7 +95,8 @@ def seed_users():
         region='West',
         playstyle='Competitive',
         has_mic=True,
-        platforms='PC'
+        platforms='PC',
+        image_url='https://playdate-images.s3.amazonaws.com/tenz.jpg'
         )
     penelope = User(
         first_name='Penelope',
@@ -111,7 +107,8 @@ def seed_users():
         region='Midwest',
         playstyle='Casual',
         has_mic=True,
-        platforms='PC'
+        platforms='PC',
+        image_url='https://playdate-images.s3.amazonaws.com/penelope.jpg'
         )
     alexander = User(
         first_name='Alexander',
@@ -122,8 +119,57 @@ def seed_users():
         region='Southwest',
         playstyle='Competitive',
         has_mic=True,
-        platforms='PC and Console'
+        platforms='PC and Console',
+        image_url='https://playdate-images.s3.amazonaws.com/alexander.jpg'
         )
+    jungkook = User(
+        first_name='Jungkook',
+        email='jk@bts.com',
+        password='maknae',
+        gender='Male',
+        age='27',
+        region='East',
+        playstyle='Competitive',
+        has_mic=True,
+        platforms='PC and Console',
+        image_url='https://playdate-images.s3.amazonaws.com/jungkook.jpg'
+    )
+    valkyrae = User(
+        first_name='Rachell',
+        email='valkyrae@100t.gg',
+        password='sus',
+        gender='Female',
+        age='32',
+        region='West',
+        playstyle='Social',
+        has_mic=True,
+        platforms='PC',
+        image_url='https://playdate-images.s3.amazonaws.com/valkyrae.jpg'
+    )
+    tyler1 = User(
+        first_name='Tyler',
+        email='tyler1@lol.gg',
+        password='toxic',
+        gender='Male',
+        age='29',
+        region='Midwest',
+        playstyle='Competitive',
+        has_mic=True,
+        platforms='PC and Console',
+        image_url='https://playdate-images.s3.amazonaws.com/tyler.JPG'
+    )
+    chaewon = User(
+        first_name='Chaewon',
+        email='chaechae@lsfm.kp',
+        password='smarter',
+        gender='Female',
+        age='24',
+        region='East',
+        playstyle='Casual',
+        has_mic=True,
+        platforms='PC',
+        image_url='https://playdate-images.s3.amazonaws.com/chaewon.jpg'
+    )
 
 
     db.session.add(demo)
@@ -131,12 +177,16 @@ def seed_users():
     db.session.add(pokimane)
     db.session.add(jett)
     db.session.add(pewdiepie)
-    db.session.add(itachi)
     db.session.add(ninja)
     db.session.add(kyedae)
     db.session.add(tenz)
     db.session.add(penelope)
     db.session.add(alexander)
+    db.session.add(jungkook)
+    db.session.add(valkyrae)
+    db.session.add(tyler1)
+    db.session.add(chaewon)
+
     db.session.commit()
 
 

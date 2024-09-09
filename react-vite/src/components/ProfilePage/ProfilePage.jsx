@@ -76,7 +76,7 @@ const ProfilePage = () => {
             {user && (
                 <div className="user-details">
                     <div className='img-name'>
-                        <img src={user.profile_image_url} className="profile-image" />
+                        <img src={user.image_url} className="profile-image" />
                         <div className='name-email'>
                             <h2>{user.first_name}</h2>
                             <p>{user.email}</p>

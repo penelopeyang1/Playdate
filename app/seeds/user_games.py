@@ -12,11 +12,10 @@ def seed_user_games():
         'kyedae': 7,
         'tenz': 8,
         'penelope': 9,
-        'alexander': 10,
-        'jungkook': 11,
-        'valkyrae': 12,
-        'tyler1': 13,
-        'chaewon': 14
+        'jungkook': 10,
+        'valkyrae': 11,
+        'tyler1': 12,
+        'chaewon': 13
     }
 
     game_ids = {
@@ -50,7 +49,6 @@ def seed_user_games():
         (user_ids['kyedae'], [game_ids['Valorant'], game_ids['Among Us']]),
         (user_ids['tenz'], [game_ids['Valorant']]),
         (user_ids['penelope'], [game_ids['Fortnite'], game_ids['Genshin Impact'], game_ids['Valorant'], game_ids['League of Legends']]),
-        (user_ids['alexander'], [game_ids['Rocket League'], game_ids['Fortnite'], game_ids['Valorant'], game_ids['Minecraft']]),
         (user_ids['jungkook'], [game_ids['League of Legends'], game_ids['Overwatch 2']]),
         (user_ids['valkyrae'], [game_ids['Among Us'], game_ids['Valorant'], game_ids['Fortnite']]),
         (user_ids['tyler1'], [game_ids['League of Legends'], game_ids['Fortnite']]),

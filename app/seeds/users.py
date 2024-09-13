@@ -110,18 +110,6 @@ def seed_users():
         platforms='PC',
         image_url='https://playdate-images.s3.amazonaws.com/penelope.jpg'
         )
-    alexander = User(
-        first_name='Alexander',
-        email='sa1nt@aa.io',
-        password='bruce',
-        gender='Male',
-        age='24',
-        region='Southwest',
-        playstyle='Competitive',
-        has_mic=True,
-        platforms='PC and Console',
-        image_url='https://playdate-images.s3.amazonaws.com/alexander.jpg'
-        )
     jungkook = User(
         first_name='Jungkook',
         email='jk@bts.com',
@@ -181,7 +169,6 @@ def seed_users():
     db.session.add(kyedae)
     db.session.add(tenz)
     db.session.add(penelope)
-    db.session.add(alexander)
     db.session.add(jungkook)
     db.session.add(valkyrae)
     db.session.add(tyler1)

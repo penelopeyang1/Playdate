@@ -92,7 +92,7 @@ def upload_profile_picture():
         form['csrf_token'].data = request.cookies.get('csrf_token', '')
 
         if form.validate_on_submit():
-            image = form.image.data
+            image = form.image_file.data
 
             if not image or image.filename == '':
                 print("No image provided.")

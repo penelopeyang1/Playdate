@@ -4,5 +4,5 @@ from wtforms import SubmitField
 from app.api.aws_helper import ALLOWED_EXTENSIONS
 
 class ImageForm(FlaskForm):
-    image = FileField('Image', validators=[FileAllowed(list(ALLOWED_EXTENSIONS))])
-    submit = SubmitField('Upload Image')
+    image_file = FileField('Image File', validators=[FileRequired(), FileAllowed(list(ALLOWED_EXTENSIONS))])
+    submit = SubmitField('Upload')

@@ -19,7 +19,7 @@ class SignUpForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired(), Length(min=2, max=50)])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=255)])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-    image = FileField('Image File', validators=[FileAllowed(list(ALLOWED_EXTENSIONS))])
+    image_file = FileField('Image File', validators=[FileAllowed(list(ALLOWED_EXTENSIONS))])
     submit = SubmitField('Upload Image')
     gender = StringField('Gender', validators=[Optional(), Length(max=50)])
     age = IntegerField('Age', validators=[Optional()])

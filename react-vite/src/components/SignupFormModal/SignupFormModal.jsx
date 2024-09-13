@@ -122,7 +122,7 @@ function SignupFormModal() {
       if (file) {
         // Upload the image to S3
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image_file', file);
 
         const uploadResponse = await fetch('/api/users/upload_profile_picture', {
           method: 'POST',
@@ -134,10 +134,17 @@ function SignupFormModal() {
         }
 
         const uploadData = await uploadResponse.json();
-        imageUrl = uploadData.url; // Assuming your server responds with `url`
+
+        console.log('Upload Data:', uploadData);
+
+        if (uploadData.url) {
+          imageUrl = uploadData.url;
+          console.log('Image URL:', imageUrl);
+        } else {
+          throw new Error('Image URL not found in upload response');
+        }
       }
 
-      // Submit user data including the image URL
       const serverResponse = await dispatch(
         thunkSignup({
           email,
@@ -150,10 +157,9 @@ function SignupFormModal() {
           region,
           hasMic,
           platforms,
-          image_url: imageUrl
+          image_url: imageUrl,
         })
       );
-      console.log(imageUrl);
 
       if (serverResponse) {
         setErrors(serverResponse);
@@ -163,38 +169,15 @@ function SignupFormModal() {
       }
     } catch (error) {
       console.error('Error:', error);
-      alert("Error occurred during signup");
+      alert('Error occurred during signup');
     }
-
-    // const serverResponse = await dispatch(
-    //   thunkSignup({
-    //     email,
-    //     password,
-    //     confirm_password,
-    //     first_name,
-    //     gender,
-    //     age,
-    //     playstyle,
-    //     region,
-    //     hasMic,
-    //     platforms,
-    //     image_url
-    //   })
-    // );
-
-    // if (serverResponse) {
-    //   setErrors(serverResponse);
-    // } else {
-    //   closeModal();
-    //   navigate('/add-games');
-    // }
   };
 
   return (
     <div className="sign-up-container">
       <img src='../diamond-star.png'></img>
       {errors.server && <p>{errors.server}</p>}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
         {currentPage === 1 && (
           <>
             <h1>Find your duo!</h1>

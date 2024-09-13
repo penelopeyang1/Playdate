@@ -23,8 +23,8 @@ class User(db.Model, UserMixin):
     # Relationships
     user_games = db.relationship('UserGame', back_populates='user')
     clips = db.relationship('Clip', back_populates='creator')
-    matches_as_user_one = db.relationship('Match', foreign_keys='Match.user_one_id', backref='match_user_one', overlaps="user_one_matches,matches_as_user_one")
-    matches_as_user_two = db.relationship('Match', foreign_keys='Match.user_two_id', backref='match_user_two', overlaps="user_two_matches,matches_as_user_two")
+    matches_as_user_one = db.relationship('Match', foreign_keys='Match.user_one_id', backref='match_user_one', overlaps="user_one_matches")
+    matches_as_user_two = db.relationship('Match', foreign_keys='Match.user_two_id', backref='match_user_two', overlaps="user_two_matches")
     match_requests_sent = db.relationship('MatchRequest', foreign_keys='MatchRequest.requester_id', back_populates='requester')
     match_requests_received = db.relationship('MatchRequest', foreign_keys='MatchRequest.requestee_id', back_populates='requestee')
     messages = db.relationship('Message', back_populates='sender')

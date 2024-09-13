@@ -53,34 +53,35 @@ def user(userId):
 #         return jsonify({'error': str(e)}), 500
 @user_routes.route('/upload_profile_picture', methods=['POST'])
 def upload_profile_picture():
-    # form = SignUpForm()
+
     form = ImageForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
+    form['csrf_token'].data = request.cookies.get('csrf_token', '')
+
+    print(f"Received files: {request.files}")
 
     if form.validate_on_submit():
-        image = form.image.data
+        image = form.image_file.data
+        print(f"Image received: {image}")
 
-        if image.filename == '':
+        if not image or image.filename == '':
+            print("No image file provided.")
             return jsonify({'error': 'No image provided'}), 400
 
         try:
             image.filename = get_unique_filename(image.filename)
             # Upload to S3
             upload_response = upload_file_to_s3(image)
-
-            # print(upload_response)
+            print(f"Upload response: {upload_response}")
 
             if "url" not in upload_response:
-                # Return error if the upload fails
                 return jsonify({'error': upload_response.get('errors', 'Image upload failed')}), 500
 
-            # Return the URL of the uploaded image
             image_url = upload_response["url"]
-
             return jsonify({'url': image_url}), 200
 
         except Exception as e:
+            print(f"Exception during file upload: {e}")
             return jsonify({'error': str(e)}), 500
 
-    print(form.errors)
+    print(f"Form errors: {form.errors}")
     return jsonify({'error': 'Invalid form submission'}), 400

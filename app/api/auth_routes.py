@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.models import User, db
 from app.forms import LoginForm
-from app.forms import SignUpForm
+from app.forms.signup_form import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
 # from werkzeug.utils import secure_filename
 from app.api.aws_helper import upload_file_to_s3, get_unique_filename, ALLOWED_EXTENSIONS, allowed_file
@@ -65,28 +65,15 @@ def sign_up():
     Creates a new user and logs them in
     """
     form = SignUpForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
+    form['csrf_token'].data = request.cookies.get('csrf_token', '')
 
     if form.validate_on_submit():
-        # Handle file upload
-        file = request.files.get('image')
-        print("Received file:", file)
-        file_url = None
+        image_url = request.json.get('image_url')
+        print(f"Received image URL in signup: {image_url}")
 
-        if file and allowed_file(file.filename):
-            try:
-                # Upload image and get the URL
-                response = upload_file_to_s3(file)
-                print("S3 Response:", response)
-                if 'errors' in response:
-                    return jsonify({'error': response['errors']}), 500
-                file_url = response.get('url')
-                print("File URL:", file_url)
-            except Exception as e:
-                print(f"Error uploading file: {e}")
-                return jsonify({'error': 'File upload failed'}), 500
-        elif file:
-            return jsonify({'error': 'Invalid file type'}), 400
+        # Check if image_url is correctly passed
+        if not image_url:
+            return jsonify({'error': 'Image URL not provided in signup request'}), 400
 
         user = User(
             email=form.data['email'],
@@ -98,16 +85,28 @@ def sign_up():
             region=form.data.get('region'),
             has_mic=form.data.get('hasMic'),
             platforms=form.data.get('platforms'),
-            image_url=file_url
+            image_url=image_url
         )
-        db.session.add(user)
-        db.session.commit()
-        print("User after commit:", user.to_dict())
-        login_user(user)
-        return user.to_dict(), 201
 
-    print(form.errors)
+        try:
+            db.session.add(user)
+            db.session.commit()
+            print("User after commit:", user.to_dict())
+            login_user(user)
+            return user.to_dict(), 201
+
+        except Exception as e:
+            print(f"Error during user creation: {e}")
+            db.session.rollback()
+            return jsonify({'error': 'User creation failed'}), 500
+
+    print(f"Form validation errors: {form.errors}")
     return form.errors, 401
+
+
+
+
+
 
 
 @auth_routes.route('/unauthorized')

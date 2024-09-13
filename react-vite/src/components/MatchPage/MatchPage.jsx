@@ -24,6 +24,9 @@ const MatchPage = () => {
         }
     }, [dispatch, userId]);
 
+    // const filteredMatches = potentialMatches.filter(match =>
+    //     match.id !== userId && !matches[match.id]?.status === 'matched'
+    // );
     const filteredMatches = potentialMatches.filter(match => match.id !== userId);
     const currentMatch = filteredMatches[currentMatchIndex];
 

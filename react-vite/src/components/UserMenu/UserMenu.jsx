@@ -16,24 +16,28 @@ const UserMenu = () => {
                         <NavLink
                             to="/find-matches"
                             className={({ isActive }) => isActive ? "footer-link active" : "footer-link"}
+                            title="Find Matches"
                         >
                             <i className="fa-solid fa-p"></i>
                         </NavLink>
                         <NavLink
                             to={`/match-requests/${userId}`}
                             className={({ isActive }) => isActive ? "footer-link active" : "footer-link"}
+                            title="Likes"
                         >
                             <i className="fa-solid fa-heart"></i>
                         </NavLink>
                         <NavLink
                             to={`/chats/${userId}`}
                             className={({ isActive }) => isActive ? "footer-link active" : "footer-link"}
+                            title="Match Chats"
                         >
                             <i className="fa-solid fa-comment"></i>
                         </NavLink>
                         <NavLink
                             to={`/profile/${userId}`}
                             className={({ isActive }) => isActive ? "footer-link active" : "footer-link"}
+                            title="Profile"
                         >
                             <i className="fa-solid fa-user"></i>
                         </NavLink>

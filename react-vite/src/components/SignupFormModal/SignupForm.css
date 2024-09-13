@@ -135,3 +135,18 @@
 .not-one {
     margin-top: 20px;
 }
+
+.sign-up-container .sign-up-button {
+    all: unset;
+    color: rgb(170, 151, 255);
+    padding: 5px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.sign-up-container .sign-up-button:hover {
+    background-color: rgba(170, 151, 255, 0.334);
+    color: rgb(255, 255, 255);
+}

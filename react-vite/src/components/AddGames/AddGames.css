@@ -49,12 +49,22 @@
     cursor: pointer;
 }
 
-.submit-button {
-    margin-top: 30px;
-    width: 150px;
-    height: 80px;
-    border-radius: 20px;
+.add-game-container .submit-button {
+    all: unset;
+    color: rgb(214, 205, 255);
+    background-color: rgb(128, 100, 255);
+    padding: 10px 10px;
+    border-radius: 10px;
     cursor: pointer;
+
+    margin-top: 20px;
+
+    transition: 0.2s ease;
+}
+
+.add-game-container .submit-button:hover {
+    background-color: rgba(170, 151, 255, 0.334);
+    color: rgb(255, 255, 255);
 }
 
 .submit-error-message {

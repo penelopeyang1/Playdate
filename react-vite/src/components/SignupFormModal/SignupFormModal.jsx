@@ -322,7 +322,7 @@ function SignupFormModal() {
               </label>
               <div className="two-button-container">
                 <button type="button" className="previous-button" onClick={handlePrevious}><i className="fa-solid fa-arrow-left-long"></i></button>
-                <button type="submit">Sign Up</button>
+                <button className='sign-up-button' type="submit">Sign Up</button>
               </div>
             </div>
           </>

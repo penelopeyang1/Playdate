@@ -4,7 +4,7 @@
 
 .navbar-container {
   /* background-color: white; */
-  position: fixed;
+  /* position: fixed; */
   top: 0;
   z-index: 1000;
   width: 100%;
@@ -14,7 +14,7 @@
   align-items: center;
   justify-content: space-between;
 
-  padding: 20px 50px;
+  padding: 0 50px;
 }
 
 .navbar-container .login-signup-buttons {
@@ -52,5 +52,10 @@
 .navbar-container .signup-button:hover {
   background-color: #7b53ff;
   box-shadow: 0px 0px 10px #693cffc2;
+  cursor: pointer;
+}
+
+.navbar-container .logo {
+  width: 125px;
   cursor: pointer;
 }

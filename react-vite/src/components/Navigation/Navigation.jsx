@@ -11,7 +11,9 @@ function Navigation() {
 
   return (
     <div className="navbar-container">
-      <NavLink to="/">Home</NavLink>
+      <NavLink to="/">
+        <img className='logo' src='../../../playdate-logo.PNG' />
+      </NavLink>
       <div className="user-buttons">
         {user ? (
           <ProfileButton />

@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { thunkSignup } from "../../redux/session";
 import { useNavigate } from 'react-router-dom';
 import { useModal } from "../../context/Modal";
+// import ProfileImageUpload from '../ProfileImageUpload';
 import "./SignupForm.css";
 
 function SignupFormModal() {
@@ -14,7 +15,8 @@ function SignupFormModal() {
   const [first_name, setFirstName] = useState("");
   const [password, setPassword] = useState("");
   const [confirm_password, setConfirmPassword] = useState("");
-  // const [imageFile, setImageFile] = useState(null);
+  // const [imageFile, setImageFile] = useState("");
+  const [file, setFile] = useState(null);
   const [gender, setGender] = useState("");
   const [age, setAge] = useState("");
   const [playstyle, setPlaystyle] = useState("");
@@ -23,6 +25,12 @@ function SignupFormModal() {
   const [platforms, setPlatforms] = useState("");
   const [errors, setErrors] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
+
+  //for image uploading
+  // const [file, setFile] = useState(null);
+  // const [isImageUploaded, setIsImageUploaded] = useState(false);
+  // const [imageSrc, setImageSrc] = useState("");
+  // const imageInputRef = useRef(null);
 
   const validatePageOne = () => {
     const newErrors = {};
@@ -80,38 +88,54 @@ function SignupFormModal() {
 
   const handlePrevious = () => setCurrentPage(currentPage - 1);
 
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
   // const handleFileChange = (e) => {
-  //   setImageFile(e.target.files[0]);
+  //   const selectedFile = e.target.files[0];
+  //   handleFile(selectedFile);
+  // };
+
+  // const handleFile = (selectedFile) => {
+  //   if (selectedFile) {
+  //     const reader = new FileReader();
+  //     reader.onload = () => {
+  //       setImageSrc(reader.result);
+  //       setIsImageUploaded(true);
+  //       setFile(selectedFile);
+  //     };
+  //     reader.readAsDataURL(selectedFile);
+  //   }
   // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // if (!imageFile) {
-    //   alert("Please add a profile picture!");
-    //   return;
-    // }
+    if (!file) {
+      alert("Please add a profile picture!");
+      return;
+    }
 
     try {
-      // let imageUrl = null;
+      let imageUrl = null;
 
-      // if (imageFile) {
-      //   // Upload the image to S3
-      //   const formData = new FormData();
-      //   formData.append('image', imageFile);
+      if (file) {
+        // Upload the image to S3
+        const formData = new FormData();
+        formData.append('image', file);
 
-      //   const uploadResponse = await fetch('/api/users/upload_profile_picture', {
-      //     method: 'POST',
-      //     body: formData,
-      //   });
+        const uploadResponse = await fetch('/api/users/upload_profile_picture', {
+          method: 'POST',
+          body: formData,
+        });
 
-      //   if (!uploadResponse.ok) {
-      //     throw new Error('Image upload failed');
-      //   }
+        if (!uploadResponse.ok) {
+          throw new Error('Image upload failed');
+        }
 
-      //   const uploadData = await uploadResponse.json();
-      //   imageUrl = uploadData.url; // Assuming your server responds with `url`
-      // }
+        const uploadData = await uploadResponse.json();
+        imageUrl = uploadData.url; // Assuming your server responds with `url`
+      }
 
       // Submit user data including the image URL
       const serverResponse = await dispatch(
@@ -126,9 +150,10 @@ function SignupFormModal() {
           region,
           hasMic,
           platforms,
-          // image_url: imageUrl
+          image_url: imageUrl
         })
       );
+      console.log(imageUrl);
 
       if (serverResponse) {
         setErrors(serverResponse);
@@ -302,16 +327,16 @@ function SignupFormModal() {
 
         {currentPage === 4 && (
           <>
-            {/* <h4 className="not-one">Lastly, let's add that beautiful picture of you!</h4> */}
+            <h4 className="not-one">Lastly, let's add that beautiful picture of you!</h4>
             <div className="input-container">
-              {/* <label>
+              <label>
                 Profile Picture
                 <input
                   type="file"
                   accept="image/*"
                   onChange={handleFileChange}
                 />
-              </label> */}
+              </label>
               <div className="two-button-container">
                 <button type="button" className="previous-button" onClick={handlePrevious}><i className="fa-solid fa-arrow-left-long"></i></button>
                 <button type="submit">Sign Up</button>
